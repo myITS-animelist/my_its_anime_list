@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_its_anime_list/features/manga/domain/entities/manga.dart';
+import 'package:my_its_anime_list/features/manga/presentation/widgets/chapter_bottom_sheet.dart';
 
 class MangaDetailPage extends StatelessWidget {
   final MangaEntity manga;
@@ -10,6 +10,9 @@ class MangaDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (kDebugMode) {
+      print(manga.chapter);
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text("${manga.title} "),
@@ -19,7 +22,7 @@ class MangaDetailPage extends StatelessWidget {
         children: [
           Image.network(manga.cover),
           ListTile(
-            title: Text("Author"),
+            title: const Text("Author"),
             subtitle: Text(manga.author),
           ),
           ListTile(
@@ -44,9 +47,7 @@ class MangaDetailPage extends StatelessWidget {
           ),
           ListTile(
             title: Text("Chapter"),
-            subtitle: Column(
-              children: manga.chapter.map((e) => Text(e)).toList(),
-            ),
+            subtitle: ChapterBottomSheet(chapter: manga.chapter), 
           ),
         ],
       ),

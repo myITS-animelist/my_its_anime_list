@@ -1,7 +1,6 @@
 
 
 import 'package:my_its_anime_list/features/manga/domain/usecases/get_all_mangas.dart';
-import 'package:my_its_anime_list/features/manga/domain/usecases/get_manga.dart';
 import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_event.dart';
 import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_state.dart';
 import 'package:bloc/bloc.dart';

@@ -9,7 +9,7 @@ class MangaModel extends MangaEntity {
   final String cover;
   final String status;
   final String type;
-  final List<String> chapter;
+  final List<Map<String, dynamic>> chapter;
   final String release;
   final List<String> genre;
 
@@ -46,7 +46,12 @@ class MangaModel extends MangaEntity {
       cover: json['cover'] as String? ?? '',
       status: json['status'] as String? ?? '',
       type: json['type'] as String? ?? '',
-      chapter: (json['chapter'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+      chapter: (json['chapter'] as List<dynamic>?)
+    ?.map((e) => {
+          'chapter': e['chapter'],
+          'content': (e['content'] as List<dynamic>?)
+        })
+    .toList() ?? [],
       release: json['release'] as String? ?? '',
       genre: (json['genre'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
     );

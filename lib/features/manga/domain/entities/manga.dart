@@ -8,7 +8,7 @@ class MangaEntity extends Equatable {
   final String cover;
   final String status;
   final String type;
-  final List<String> chapter;
+  final List<Map<String, dynamic>> chapter;
   final String release;
   final List<String> genre;
 

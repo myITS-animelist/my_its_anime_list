@@ -27,6 +27,20 @@ class RemoteDataSourceImpl implements RemoteDataSource {
 
   @override
   Future<void> createManga(Map<String, dynamic> manga) async {
-    await firestore.collection('manga').add(manga);
+    Map<String, dynamic> data = {
+      'id': manga['id'],
+      'title': manga['title'],
+      'author': manga['author'],
+      'sinopsis': manga['sinopsis'],
+      'cover': manga['cover'],
+      'status': manga['status'],
+      'type': manga['type'],
+      'release': manga['release'],
+      'chapter': manga['chapter'],
+      'genre': manga['genre'],
+    };
+
+
+    final snapshot = await firestore.collection('manga').add(data);
   }
 }
