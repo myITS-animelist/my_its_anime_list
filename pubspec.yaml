@@ -34,6 +34,7 @@ dependencies:
   dartz: ^0.10.1
   equatable: ^2.0.5
   firebase_core: ^2.31.1
+  firebase_auth: ^4.20.0
   firebase_messaging: ^14.9.3
   firebase_storage: ^11.7.6
   flutter:
@@ -45,6 +46,9 @@ dependencies:
   http: ^1.2.1
   image_picker: ^1.1.1
   intl: ^0.19.0
+  google_sign_in: ^6.2.1
+  email_validator: ^2.1.17
+  
 
 dev_dependencies:
   flutter_lints: ^3.0.0
