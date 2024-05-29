@@ -12,6 +12,15 @@ class GetMangaListEvent extends MangaEvent {
   const GetMangaListEvent();
 }
 
+class CreateMangaEvent extends MangaEvent {
+  final Map<String, dynamic> mangaData;
+
+  const CreateMangaEvent(this.mangaData);
+
+  @override
+  List<Object> get props => [mangaData];
+}
+
 class GetMangaDetailEvent extends MangaEvent {
   final String id;
 

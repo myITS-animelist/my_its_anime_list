@@ -35,6 +35,7 @@ class MangaRepositoryImpl implements MangaRepository {
   @override
   Future<void> createManga(Map<String, dynamic> manga) async {
     try {
+      print("MangaRepositoryImpl.createManga: $manga");
       await remoteDataSource.createManga(manga);
     } on ServerException {
       throw Failure();
