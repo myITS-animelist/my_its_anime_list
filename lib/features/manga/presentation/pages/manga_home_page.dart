@@ -20,8 +20,21 @@ class _MangaHomePageState extends State<MangaHomePage> {
           title: const Text("My ITS Anime List"),
           centerTitle: true,
         ),
-        body: BlocBuilder<MangaBloc, MangaState>(builder: (context, state) {
-          if (state is MangaLoading) {
+        body: 
+        StreamBuilder<MangaState>(
+          stream: BlocProvider.of<MangaBloc>(context).stream,
+          builder: (context, snapshot) {
+            if(snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if(snapshot.hasError) {
+              return Center(
+                child: Text(snapshot.error.toString()),
+              );
+            } else {
+              final state = snapshot.data;
+               if (state is MangaLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
@@ -187,6 +200,9 @@ class _MangaHomePageState extends State<MangaHomePage> {
               child: Text("Unknown state"),
             );
           }
-        }));
+            } 
+          },
+        )
+        );
   }
 }

@@ -14,13 +14,26 @@ class MangaBloc extends Bloc<MangaEvent, MangaState> {
     on <GetMangaListEvent> (onGetMangaList);
   }
 
-  void onGetMangaList(GetMangaListEvent event, Emitter<MangaState> emit) async {
-    emit(const MangaLoading());
-    final result = await getMangaList.execute();
+  // void onGetMangaList(GetMangaListEvent event, Emitter<MangaState> emit) async {
+  //   emit(const MangaLoading());
+  //   final result = await getMangaList.execute();
+  //   result.fold(
+  //     (failure) => emit(MangaError(message: failure.message!)),
+  //     (mangalist) => emit(MangaLoaded(mangalist: mangalist)),
+  //   );
+  // }
+
+void onGetMangaList(GetMangaListEvent event, Emitter<MangaState> emit) async {
+  emit(const MangaLoading());
+  try {
+    final result = await getMangaList.execute().first;
     result.fold(
       (failure) => emit(MangaError(message: failure.message!)),
       (mangalist) => emit(MangaLoaded(mangalist: mangalist)),
     );
+  } catch (e) {
+    emit(MangaError(message: 'An error occurred: $e'));
   }
+}
 
 }

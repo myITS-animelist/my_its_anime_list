@@ -83,182 +83,180 @@ class _FormUplaodMangaState extends State<FormUplaodManga> {
                   child: CircularProgressIndicator(),
                 );
               }
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: titleController,
-                      autocorrect: true,
-                      keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction.next,
-                      decoration: const InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          border: OutlineInputBorder(),
-                          labelText: 'title',
-                          hintText: 'masukkan title'),
-                      onChanged: (value) {
-                        mangaData['title'] = value;
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    TextField(
-                      controller: authorController,
-                      autocorrect: true,
-                      keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction.next,
-                      decoration: const InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          border: OutlineInputBorder(),
-                          labelText: 'author',
-                          hintText: 'masukkan author'),
-                      onChanged: (value) {
-                        mangaData['author'] = value;
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    TextField(
-                      controller: sinopsisController,
-                      autocorrect: true,
-                      keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction.next,
-                      decoration: const InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          border: OutlineInputBorder(),
-                          labelText: 'sinopsis',
-                          hintText: 'masukkan sinopsis'),
-                      onChanged: (value) {
-                        mangaData['sinopsis'] = value;
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    TextField(
-                      controller: statusController,
-                      autocorrect: true,
-                      keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction.next,
-                      decoration: const InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          border: OutlineInputBorder(),
-                          labelText: 'status',
-                          hintText: 'masukkan status'),
-                      onChanged: (value) {
-                        mangaData['status'] = value;
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    TextField(
-                      controller: typeController,
-                      autocorrect: true,
-                      keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction.next,
-                      decoration: const InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          border: OutlineInputBorder(),
-                          labelText: 'type',
-                          hintText: 'masukkan type'),
-                      onChanged: (value) {
-                        mangaData['type'] = value;
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    TextField(
-                      controller: releaseController,
-                      autocorrect: true,
-                      keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction.next,
-                      decoration: const InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          border: OutlineInputBorder(),
-                          labelText: 'release',
-                          hintText: 'masukkan release'),
-                      onChanged: (value) {
-                        mangaData['release'] = value;
-                      },
-                    ),
-                    ChapterUploadForm(updateChapter: _updateChapter),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: chapters.map((data) {
-                            return Container(
-                              margin: EdgeInsets.all(8.0),
-                              padding: EdgeInsets.all(16.0),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Text('Chapter ${data['chapter']}'),
-                            );
-                          }).toList(),
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: 
+                  Center(
+                    child:  Column(
+                    children: [
+                      TextFieldWidget(
+                          textController: titleController,
+                          mangaData: mangaData,
+                          input: "title"),
+                      const SizedBox(height: 8),
+                      TextFieldWidget(
+                          textController: authorController,
+                          mangaData: mangaData,
+                          input: 'author'),
+                      const SizedBox(height: 8),
+                      TextFieldWidget(
+                          textController: sinopsisController,
+                          mangaData: mangaData,
+                          input: 'sinopsis'),
+                      const SizedBox(height: 8),
+                      TextFieldWidget(
+                          textController: statusController,
+                          mangaData: mangaData,
+                          input: 'status'),
+                      const SizedBox(height: 8),
+                      TextFieldWidget(
+                          textController: typeController,
+                          mangaData: mangaData,
+                          input: 'type'),
+                      const SizedBox(height: 8),
+                      TextFieldWidget(
+                          textController: releaseController,
+                          mangaData: mangaData,
+                          input: 'release'),
+                      ChapterUploadForm(updateChapter: _updateChapter),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: chapters.map((data) {
+                              return Container(
+                                margin: EdgeInsets.all(8.0),
+                                padding: EdgeInsets.all(16.0),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Text('Chapter ${data['chapter']}'),
+                              );
+                            }).toList(),
+                          ),
                         ),
                       ),
-                    ),
-                    IconButton(
-                      onPressed: () async {
-                        ImagePicker imagePicker = ImagePicker();
+                      // show image if image have been uploaded
+                      if (imageUrl.isNotEmpty)
+                        Image.network(
+                          imageUrl,
+                          width: 100,
+                          height: 100,
+                        ),
+                      IconButton(
+                        onPressed: () async {
+                          ImagePicker imagePicker = ImagePicker();
 
-                        XFile? file = await imagePicker.pickImage(
-                            source: ImageSource.gallery);
+                          XFile? file = await imagePicker.pickImage(
+                              source: ImageSource.gallery);
+                          if (file == null) {
+                            return;
+                          }
+                          String uniqueFileName =
+                              DateTime.now().millisecondsSinceEpoch.toString();
 
-                        var pathfile = file?.path;
+                          Reference referenceRoot =
+                              FirebaseStorage.instance.ref();
+                          Reference referenceDirImages =
+                              referenceRoot.child('images');
 
-                        if (file == null) {
-                          return;
-                        }
-                        String uniqueFileName =
-                            DateTime.now().millisecondsSinceEpoch.toString();
+                          Reference referenceImageToUpload =
+                              referenceDirImages.child(uniqueFileName);
 
-                        Reference referenceRoot =
-                            FirebaseStorage.instance.ref();
-                        Reference referenceDirImages =
-                            referenceRoot.child('images');
-
-                        Reference referenceImageToUpload =
-                            referenceDirImages.child(uniqueFileName);
-
-                        try {
-                          await referenceImageToUpload
-                              .putFile(File(file!.path));
-                          imageUrl =
-                              await referenceImageToUpload.getDownloadURL();
-                          setState(() {
-                            mangaData['cover'] = imageUrl;
-                            print("mangaData['cover'] ${mangaData['cover']}");
-                          });
-                          print(imageUrl);
-                        } catch (error) {
-                          // handle error
-                        }
-                      },
-                      icon: const Icon(Icons.add),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        // use bloc to upload manga
-                        setState(() {
-                          mangaData['chapter'] = chapters;
-                          print("data chapter $chapters");
-                          print("mangaData: ${mangaData['chapter']}");
-                        });
-                        context
-                            .read<MangaBlocCreate>()
-                            .add(CreateMangaEvent(mangaData));
-                      },
-                      child: const Text('Upload'),
-                    )
-                  ],
-                ),
+                          try {
+                            await referenceImageToUpload
+                                .putFile(File(file.path));
+                            imageUrl =
+                                await referenceImageToUpload.getDownloadURL();
+                            setState(() {
+                              mangaData['cover'] = imageUrl;
+                            });
+                          } catch (error) {
+                            // handle error
+                          }
+                        },
+                        icon: const Icon(Icons.add),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              // use bloc to upload manga
+                              setState(() {
+                                mangaData['title'] = titleController.text;
+                                mangaData['author'] = authorController.text;
+                                mangaData['sinopsis'] = sinopsisController.text;
+                                mangaData['status'] = statusController.text;
+                                mangaData['type'] = typeController.text;
+                                mangaData['release'] = releaseController.text;
+                                mangaData['chapter'] = chapters;
+                              });
+                              context
+                                  .read<MangaBlocCreate>()
+                                  .add(CreateMangaEvent(mangaData));
+                            },
+                            child: const Text('Upload'),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              // delete uploaded image from firebase storage
+                              if (imageUrl.isNotEmpty) {
+                                Reference referenceRoot =
+                                    FirebaseStorage.instance.ref();
+                                Reference referenceDirImages =
+                                    referenceRoot.child('images');
+                                Reference referenceImageToDelete =
+                                    referenceDirImages.child(imageUrl);
+                                referenceImageToDelete.delete();
+                              }
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Cancel'),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+               )
+                  ),
               );
             },
           ),
         ));
+  }
+}
+
+class TextFieldWidget extends StatelessWidget {
+  const TextFieldWidget({
+    super.key,
+    required this.textController,
+    required this.mangaData,
+    required this.input,
+  });
+
+  final TextEditingController textController;
+  final Map<String, dynamic> mangaData;
+  final String input;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: textController,
+      autocorrect: true,
+      keyboardType: TextInputType.text,
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          border: const OutlineInputBorder(),
+          labelText: input,
+          hintText: 'masukkan $input'),
+      onChanged: (value) {
+        mangaData[input] = value;
+      },
+    );
   }
 }
