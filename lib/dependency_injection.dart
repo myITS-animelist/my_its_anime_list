@@ -3,6 +3,8 @@ import 'package:get_it/get_it.dart';
 import 'package:my_its_anime_list/features/manga/data/datasources/remote_datasource.dart';
 import 'package:my_its_anime_list/features/manga/data/repositories/manga_repository_impl.dart';
 import 'package:my_its_anime_list/features/manga/domain/repositories/manga_repository.dart';
+import 'package:my_its_anime_list/features/manga/domain/usecases/add_chapter.dart';
+import 'package:my_its_anime_list/features/manga/domain/usecases/add_content_to_chapter.dart';
 import 'package:my_its_anime_list/features/manga/domain/usecases/create_manga.dart';
 import 'package:my_its_anime_list/features/manga/domain/usecases/get_all_mangas.dart';
 import 'package:my_its_anime_list/features/manga/domain/usecases/get_manga.dart';
@@ -72,6 +74,14 @@ Future<void> initializeDependencies() async {
 
   sl.registerSingleton<CreateManga>(
     CreateManga(sl()),
+  );
+
+  sl.registerSingleton<AddChapter>(
+    AddChapter(sl()),
+  );
+
+  sl.registerSingleton<AddContentToChapter>(
+    AddContentToChapter(sl()),
   );
 
   sl.registerFactory<MangaBloc>(() => MangaBloc(sl()));
