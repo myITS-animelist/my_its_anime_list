@@ -6,7 +6,8 @@ abstract class RemoteDataSource {
   Stream<MangaModel> getMangaDetail(String id);
   Future<void> createManga(Map<String, dynamic> manga);
   Future<void> addChapter(String id, Map<String, dynamic> chapter);
-  Future<void> addContentToChapter(String mangaId, Map<String, dynamic> newContent, int chapterNum);
+  Future<void> addContentToChapter(
+      String mangaId, Map<String, dynamic> newContent, int chapterNum);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -17,7 +18,9 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Stream<List<MangaModel>> getMangaList() {
     return firestore.collection('manga').snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => MangaModel.fromJson(doc.data() as Map<String, dynamic>)).toList();
+      return snapshot.docs
+          .map((doc) => MangaModel.fromJson(doc.data() as Map<String, dynamic>))
+          .toList();
     });
   }
 
@@ -43,8 +46,9 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       'genre': manga['genre'],
     };
 
+    print("Creating Manga with data: $data");
 
-    final snapshot = await firestore.collection('manga').add(data);
+    await firestore.collection('manga').add(data);
   }
 
   @override
@@ -55,10 +59,12 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<void> addContentToChapter(String mangaId, Map<String, dynamic> newContent, int chapterNum) async {
+  Future<void> addContentToChapter(
+      String mangaId, Map<String, dynamic> newContent, int chapterNum) async {
     // Reference to the Firestore collection and document
-    CollectionReference mangaCollection = FirebaseFirestore.instance.collection('manga');
-    
+    CollectionReference mangaCollection =
+        FirebaseFirestore.instance.collection('manga');
+
     // Fetch the document
     DocumentSnapshot docSnapshot = await mangaCollection.doc(mangaId).get();
 
@@ -66,7 +72,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       // Get the current chapter data
       Map<String, dynamic>? data = docSnapshot.data() as Map<String, dynamic>?;
       List<dynamic> chapters = data?['chapter'] ?? [];
-      
+
       // Find the chapter with chapter: 1
       for (int i = 0; i < chapters.length; i++) {
         if (chapters[i]['chapter'] == chapterNum) {

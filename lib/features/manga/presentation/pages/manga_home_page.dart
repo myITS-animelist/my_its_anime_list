@@ -44,14 +44,14 @@ class _MangaHomePageState extends State<MangaHomePage> {
                 Column(
                   children: [
                     SizedBox(
-                      height: 750,
+                      height: 650,
                       child: GridView.builder(
                         itemCount: state.mangalist!.length,
                         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 200,
+                          maxCrossAxisExtent: 300,
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
-                          childAspectRatio: 0.5,
+                          childAspectRatio: 0.45,
                         ),
                         itemBuilder: (context, index) {
                           return GestureDetector(
@@ -82,8 +82,8 @@ class _MangaHomePageState extends State<MangaHomePage> {
                                         borderRadius: const BorderRadius.vertical(
                                             top: Radius.circular(10)),
                                         child: Image.network(
-                                          // state.mangalist![index].cover,
-                                          "https://firebasestorage.googleapis.com/v0/b/myits-animelist.appspot.com/o/images%2F1717007549286?alt=media&token=0abb80f6-7621-4736-9c56-edad278c84c5",
+                                          state.mangalist![index].cover,
+                                          // "https://firebasestorage.googleapis.com/v0/b/myits-animelist.appspot.com/o/images%2F1717007549286?alt=media&token=0abb80f6-7621-4736-9c56-edad278c84c5",
                                           fit: BoxFit.cover,
                                           width: double.infinity,
                                           height: 300,
