@@ -126,8 +126,8 @@ class _FormUplaodMangaState extends State<FormUplaodManga> {
                           child: Row(
                             children: chapters.map((data) {
                               return Container(
-                                margin: EdgeInsets.all(8.0),
-                                padding: EdgeInsets.all(16.0),
+                                margin: EdgeInsets.all(0),
+                                padding: EdgeInsets.all(0),
                                 decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.circular(10),

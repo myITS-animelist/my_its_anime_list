@@ -16,6 +16,7 @@ class MangaBlocCreate extends Bloc<MangaCreateEvent, MangaCreateState> {
     try {
       print("MangaBlocCreate.onCreateManga: ${event.mangaData}");
       await createManga.execute(event.mangaData);
+      // await createManga.execute(event.mangaData);
       emit(const MangaCreated());
     } catch (e) {
       emit(MangaCreateError(e.toString()));

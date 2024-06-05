@@ -84,7 +84,7 @@ class MangaRepositoryImpl implements MangaRepository {
   }
 
   @override
-  Stream<void> createManga(Map<String, dynamic> manga) async* {
+  Future<void> createManga(Map<String, dynamic> manga) async {
     try {
       print("MangaRepositoryImpl.createManga: $manga");
       await remoteDataSource.createManga(manga);

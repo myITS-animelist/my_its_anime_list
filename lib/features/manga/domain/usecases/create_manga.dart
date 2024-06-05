@@ -5,9 +5,8 @@ class CreateManga {
 
   CreateManga(this.repository);
 
-  Stream<void> execute(Map<String, dynamic> manga) async* {
+  Future<void> execute(Map<String, dynamic> manga) async {
     print("CreateManga.execute: $manga");
     await repository.createManga(manga);
-    yield null;
   }
 }
