@@ -89,8 +89,9 @@ class _LoginFormState extends State<LoginForm> {
                 BlocProvider.of<AuthBloc>(context).add(CheckLoggingInEvent());
               } else if (state is SignedInPageState ||
                   state is GoogleSignInState) {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => const HomePage()));
+                // Navigator.of(context).pushReplacement(
+                //     MaterialPageRoute(builder: (context) => const HomePage()));
+                Navigator.pushNamed(context, '/');
               } else if (state is VerifyEmailPageState) {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const VerifyEmail()));

@@ -30,10 +30,12 @@ class MyApp extends StatelessWidget {
         create: (_) => di.sl<AuthBloc>()..add(CheckLoggingInEvent()),
         child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
           if (state is SignedInPageState) {
-            return const MaterialApp(
+            return  MaterialApp(
               title: 'Flutter Demo',
               debugShowCheckedModeBanner: false,
-              home: HomePage(),
+              onGenerateRoute: AppRoutes.onGenerateRoutes,
+                home: BlocProvider(create: (_) => di.sl<MangaBloc>()..add(GetMangaListEvent()), 
+              child: const MangaHomePage()),
             );
           } else {
             return MaterialApp(
@@ -41,7 +43,8 @@ class MyApp extends StatelessWidget {
               theme:
                   ThemeData(useMaterial3: true, colorSchemeSeed: Colors.blue),
               debugShowCheckedModeBanner: false,
-              home: SignUp(),
+              onGenerateRoute: AppRoutes.onGenerateRoutes,
+              home: const SignUp(),
             );
           }
         }));
