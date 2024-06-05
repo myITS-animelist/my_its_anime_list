@@ -21,3 +21,11 @@ class EmptyException implements Exception {
 
   const EmptyException(this.message);
 }
+
+class OfflineException implements Exception {}
+class WeekPassException implements Exception {}
+class ExistedAccountException implements Exception {}
+class NoUserException implements Exception {}
+class WrongPasswordException implements Exception {}
+class TooManyRequestsException implements Exception {}
+

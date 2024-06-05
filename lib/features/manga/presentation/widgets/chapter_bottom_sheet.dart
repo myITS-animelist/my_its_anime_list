@@ -16,6 +16,12 @@ class ChapterBottomSheet extends StatelessWidget {
             builder: (context) => Scaffold(
                   appBar: AppBar(
                     title: Text("Chapter"),
+                      actions: [
+                        IconButton(
+                          icon: Icon(Icons.add),
+                          onPressed: (){},
+                        ),
+                      ],
                   ),
                   body: ListView(
                     children: chapter.map((e) {

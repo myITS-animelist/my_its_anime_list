@@ -9,7 +9,11 @@ class GetMangaList {
 
   GetMangaList(this._repository);
 
-  Future<Either<Failure, List<MangaEntity>>> execute() async {
-    return await _repository.getMangaList();
+  // Future<Either<Failure, List<MangaEntity>>> execute() async {
+  //   return await _repository.getMangaList();
+  // }
+
+  Stream<Either<Failure, List<MangaEntity>>> execute() {
+    return _repository.getMangaList();
   }
 }
