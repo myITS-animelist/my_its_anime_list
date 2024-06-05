@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
+import 'package:my_its_anime_list/features/anime/data/datasources/anime_api_service.dart';
 import 'package:my_its_anime_list/features/manga/data/datasources/remote_datasource.dart';
 import 'package:my_its_anime_list/features/manga/data/repositories/manga_repository_impl.dart';
 import 'package:my_its_anime_list/features/manga/domain/repositories/manga_repository.dart';
@@ -9,6 +10,7 @@ import 'package:my_its_anime_list/features/manga/domain/usecases/create_manga.da
 import 'package:my_its_anime_list/features/manga/domain/usecases/get_all_mangas.dart';
 import 'package:my_its_anime_list/features/manga/domain/usecases/get_manga.dart';
 import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:my_its_anime_list/features/authentication/data/datasources/auth_remote_data_source.dart';
 import 'package:my_its_anime_list/features/authentication/data/repositories/auth_repository_impl.dart';
 import 'package:my_its_anime_list/features/authentication/domain/repositories/authentication_repository.dart';
@@ -76,6 +78,8 @@ Future<void> initializeDependencies() async {
     CreateManga(sl()),
   );
 
+  sl.registerSingleton<Dio>(Dio());
+
   sl.registerSingleton<AddChapter>(
     AddChapter(sl()),
   );
@@ -85,6 +89,8 @@ Future<void> initializeDependencies() async {
   );
 
   sl.registerFactory<MangaBloc>(() => MangaBloc(sl()));
+
+  sl.registerSingleton<AnimeApiService>(AnimeApiService(sl()));
 
 // Bloc
 
