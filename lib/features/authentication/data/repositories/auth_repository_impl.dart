@@ -62,6 +62,7 @@ class AuthenticationRepositoryImp implements AuthenticationRepository {
               .set({
             'name': signUp.name,
             'email': signUp.email,
+            'profileImageUrl': '',
           });
         }
 
