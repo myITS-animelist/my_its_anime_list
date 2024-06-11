@@ -4,6 +4,8 @@ import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_bloc.da
 import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_state.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/form_upload_manga.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/manga_image_list.dart';
+import 'package:my_its_anime_list/features/authentication/presentation/bloc/authentication/auth_bloc.dart';
+import 'package:my_its_anime_list/features/manga/presentation/widgets/navigation_bar.dart';
 
 class MangaHomePage extends StatefulWidget {
   const MangaHomePage({super.key});
@@ -13,12 +15,32 @@ class MangaHomePage extends StatefulWidget {
 }
 
 class _MangaHomePageState extends State<MangaHomePage> {
+  int _selectedIndex = 0;
+  static const List<Widget> _widgetOptions = <Widget>[
+    MangaHomePage(),
+    //! UserPage(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text("My ITS Anime List"),
           centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () {
+                BlocProvider.of<AuthBloc>(context).add(LogOutEvent());
+              },
+            ),
+          ],
         ),
         body: StreamBuilder<MangaState>(
           stream: BlocProvider.of<MangaBloc>(context).stream,

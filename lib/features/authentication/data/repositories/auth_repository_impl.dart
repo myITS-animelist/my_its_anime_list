@@ -12,6 +12,7 @@ import '../../domain/entities/sign_up_entity.dart';
 import '../../domain/repositories/authentication_repository.dart';
 import '../datasources/auth_remote_data_source.dart';
 import '../models/first_page_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthenticationRepositoryImp implements AuthenticationRepository {
   final AuthRemoteDataSource authRemoteDataSource;
@@ -53,6 +54,18 @@ class AuthenticationRepositoryImp implements AuthenticationRepository {
             password: signUp.password,
             repeatedPassword: signUp.repeatedPassword);
         final userCredential = await authRemoteDataSource.signUp(signUpModel);
+
+        if (userCredential.user != null) {
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(userCredential.user!.uid)
+              .set({
+            'name': signUp.name,
+            'email': signUp.email,
+            'profileImageUrl': '',
+          });
+        }
+
         return Right(userCredential);
       } on WeekPassException {
         return Left(WeekPassFailure());
