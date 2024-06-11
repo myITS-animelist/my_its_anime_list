@@ -10,13 +10,14 @@ import 'package:my_its_anime_list/firebase_options.dart';
 import 'package:my_its_anime_list/features/authentication/presentation/bloc/authentication/auth_bloc.dart';
 import 'package:my_its_anime_list/features/authentication/presentation/pages/auth/sign_up_page.dart';
 import 'package:my_its_anime_list/features/authentication/presentation/pages/home.dart';
+import 'package:my_its_anime_list/features/authentication/presentation/pages/user_page.dart';
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  ); 
+  );
   await di.init();
   runApp(const MyApp());
 }
@@ -30,12 +31,13 @@ class MyApp extends StatelessWidget {
         create: (_) => di.sl<AuthBloc>()..add(CheckLoggingInEvent()),
         child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
           if (state is SignedInPageState) {
-            return  MaterialApp(
+            return MaterialApp(
               title: 'Flutter Demo',
               debugShowCheckedModeBanner: false,
               onGenerateRoute: AppRoutes.onGenerateRoutes,
-                home: BlocProvider(create: (_) => di.sl<MangaBloc>()..add(GetMangaListEvent()), 
-              child: const MangaHomePage()),
+              home: BlocProvider(
+                  create: (_) => di.sl<MangaBloc>()..add(GetMangaListEvent()),
+                  child: const UserPage()),
             );
           } else {
             return MaterialApp(
