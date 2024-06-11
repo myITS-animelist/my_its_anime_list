@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:my_its_anime_list/features/manga/data/models/manga_model.dart';
+import 'package:uuid/uuid.dart';
 
 abstract class RemoteDataSource {
   Stream<List<MangaModel>> getMangaList();
@@ -8,6 +13,7 @@ abstract class RemoteDataSource {
   Future<void> addChapter(String id, Map<String, dynamic> chapter);
   Future<void> addContentToChapter(
       String mangaId, Map<String, dynamic> newContent, int chapterNum);
+  Future<void> addImageChapter(String id, String chapNumber, XFile file);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -33,8 +39,11 @@ class RemoteDataSourceImpl implements RemoteDataSource {
 
   @override
   Future<void> createManga(Map<String, dynamic> manga) async {
+    // generate unique id for the document
+    var uuid = Uuid();
+
     Map<String, dynamic> data = {
-      'id': manga['id'],
+      'id': uuid.v4(),
       'title': manga['title'],
       'author': manga['author'],
       'sinopsis': manga['sinopsis'],
@@ -53,9 +62,81 @@ class RemoteDataSourceImpl implements RemoteDataSource {
 
   @override
   Future<void> addChapter(String id, Map<String, dynamic> chapter) async {
-    final snapshot = await firestore.collection('manga').doc(id).update({
-      'chapter': FieldValue.arrayUnion([chapter])
-    });
+    // final snapshot = await firestore.collection('manga').doc(id).get();
+
+    // add query to get the document where the id is equal to the id parameter
+    final snapshot =
+        await firestore.collection('manga').where('id', isEqualTo: id).get();
+
+    if (snapshot.docs.isNotEmpty) {
+      final docId = snapshot.docs.first.id;
+      final doc = snapshot.docs.first.data();
+      List<dynamic> chapters = doc['chapter'] ?? [];
+
+      chapters.add(chapter);
+
+      await firestore
+          .collection('manga')
+          .doc(docId)
+          .update({'chapter': chapters});
+    } else {
+      print("Document does not exist!");
+    }
+
+    print("bjirr ${snapshot.docs.first}");
+  }
+
+  @override
+  Future<void> addImageChapter(String id, String chapNumber, XFile file) async {
+    Reference referenceRoot =
+        FirebaseStorage.instance.ref();
+    Reference referenceDirImages =
+        referenceRoot.child('images');
+
+    String uniqueFileName =
+            DateTime.now().millisecondsSinceEpoch.toString();
+
+    Reference referenceImageToUpload =
+        referenceDirImages.child(uniqueFileName);
+
+    // define the image url
+    String imageUrl = '';
+
+    try {
+      await referenceImageToUpload
+          .putFile(File(file.path));
+      imageUrl =
+          await referenceImageToUpload.getDownloadURL();
+    } catch (error) {
+      // handle error
+      print("Error uploading image: $error");
+    }
+
+    // add query to get the document where the id is equal to the id parameter
+    final snapshot =
+        await firestore.collection('manga').where('id', isEqualTo: id).get();
+
+    if (snapshot.docs.isNotEmpty) {
+      final docId = snapshot.docs.first.id;
+      final doc = snapshot.docs.first.data();
+      List<dynamic> chapters = doc['chapter'] ?? [];
+
+      // Find the chapter with chapter: 1
+      for (int i = 0; i < chapters.length; i++) {
+        if (chapters[i]['chapter'] == chapNumber) {
+          // Add new content to the chapter's content array
+          chapters[i]['content'].add({'imgUrl': imageUrl});
+          break;
+        }
+      }
+
+      // Update the document with the new chapters array
+      await firestore.collection('manga').doc(docId).update({'chapter': chapters});
+    } else {
+      print("Document does not exist!");
+    }
+
+    print("bjirr ${snapshot.docs.first}");
   }
 
   @override

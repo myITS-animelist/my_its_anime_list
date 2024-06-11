@@ -47,7 +47,7 @@ class MangaDetailPage extends StatelessWidget {
           ),
           ListTile(
             title: Text("Chapter"),
-            subtitle: ChapterBottomSheet(chapter: manga.chapter), 
+            subtitle: ChapterBottomSheet(id: manga.id, chapter: manga.chapter), 
           ),
         ],
       ),

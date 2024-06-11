@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_its_anime_list/features/authentication/domain/usecases/sign_in_usecase.dart';
+import 'package:my_its_anime_list/features/authentication/presentation/pages/auth/sign_up_page.dart';
 import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_bloc.dart';
 import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_state.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/form_upload_manga.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/manga_image_list.dart';
 import 'package:my_its_anime_list/features/authentication/presentation/bloc/authentication/auth_bloc.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/navigation_bar.dart';
+import 'package:my_its_anime_list/dependency_injection.dart';
 
 class MangaHomePage extends StatefulWidget {
   const MangaHomePage({super.key});
@@ -38,6 +41,7 @@ class _MangaHomePageState extends State<MangaHomePage> {
               icon: Icon(Icons.logout),
               onPressed: () {
                 BlocProvider.of<AuthBloc>(context).add(LogOutEvent());
+                Navigator.pushNamed(context, '/sign_up');
               },
             ),
           ],
@@ -172,6 +176,9 @@ class _MangaHomePageState extends State<MangaHomePage> {
                                                       "Chapter " +
                                                           chapter['chapter']
                                                               .toString(),
+                                                      chapter['chapter']
+                                                          .toString(),
+                                                      state.mangalist![index].id,
                                                     ),
                                                   ),
                                                 );

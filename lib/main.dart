@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
               onGenerateRoute: AppRoutes.onGenerateRoutes,
               home: BlocProvider(
                   create: (_) => di.sl<MangaBloc>()..add(GetMangaListEvent()),
-                  child: const UserPage()),
+                  child: const MangaHomePage()),
             );
           } else {
             return MaterialApp(

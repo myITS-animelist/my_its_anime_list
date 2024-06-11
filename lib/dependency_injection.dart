@@ -5,9 +5,11 @@ import 'package:my_its_anime_list/features/manga/data/repositories/manga_reposit
 import 'package:my_its_anime_list/features/manga/domain/repositories/manga_repository.dart';
 import 'package:my_its_anime_list/features/manga/domain/usecases/add_chapter.dart';
 import 'package:my_its_anime_list/features/manga/domain/usecases/add_content_to_chapter.dart';
+import 'package:my_its_anime_list/features/manga/domain/usecases/add_image_chapter.dart';
 import 'package:my_its_anime_list/features/manga/domain/usecases/create_manga.dart';
 import 'package:my_its_anime_list/features/manga/domain/usecases/get_all_mangas.dart';
 import 'package:my_its_anime_list/features/manga/domain/usecases/get_manga.dart';
+import 'package:my_its_anime_list/features/manga/presentation/bloc/imageChapter/image_chapter_add_bloc.dart';
 import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_bloc.dart';
 import 'package:my_its_anime_list/features/authentication/data/datasources/auth_remote_data_source.dart';
 import 'package:my_its_anime_list/features/authentication/data/repositories/auth_repository_impl.dart';
@@ -80,11 +82,18 @@ Future<void> initializeDependencies() async {
     AddChapter(sl()),
   );
 
+  sl.registerSingleton<ImageChapterAddUseCase>(
+    ImageChapterAddUseCase(sl()),
+  );
+
+
   sl.registerSingleton<AddContentToChapter>(
     AddContentToChapter(sl()),
   );
 
   sl.registerFactory<MangaBloc>(() => MangaBloc(sl()));
+
+  sl.registerFactory<ImageChapterAddBloc>(() => ImageChapterAddBloc(sl()));
 
 // Bloc
 

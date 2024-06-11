@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:image_picker/image_picker.dart';
 import 'package:my_its_anime_list/core/error/exception.dart';
 import 'package:my_its_anime_list/core/error/failure.dart';
 import 'package:dartz/dartz.dart';
@@ -33,24 +34,27 @@ class MangaRepositoryImpl implements MangaRepository {
   //   }
   // }
 
-    @override
+  @override
   Stream<Either<Failure, List<MangaEntity>>> getMangaList() async* {
     try {
       final result = remoteDataSource.getMangaList();
+      print(result);
 
       await for (final mangaModel in result) {
-        final mangaEntity = mangaModel.map((e) => MangaEntity(
-          title: e.title,
-          author: e.author,
-          sinopsis: e.sinopsis,
-          cover: e.cover,
-          status: e.status,
-          type: e.type,
-          chapter: e.chapter,
-          release: e.release,
-          genre: e.genre,
-          id: e.id,
-        )).toList();
+        final mangaEntity = mangaModel
+            .map((e) => MangaEntity(
+                  title: e.title,
+                  author: e.author,
+                  sinopsis: e.sinopsis,
+                  cover: e.cover,
+                  status: e.status,
+                  type: e.type,
+                  chapter: e.chapter,
+                  release: e.release,
+                  genre: e.genre,
+                  id: e.id,
+                ))
+            .toList();
         yield Right<Failure, List<MangaEntity>>(mangaEntity);
       }
     } on ServerException {
@@ -92,7 +96,6 @@ class MangaRepositoryImpl implements MangaRepository {
       throw Failure();
     }
   }
-  
 
   @override
   Future<void> addChapter(String id, Map<String, dynamic> chapter) async {
@@ -104,9 +107,20 @@ class MangaRepositoryImpl implements MangaRepository {
   }
 
   @override
-  Future<void> addContentToChapter(String mangaId, Map<String, dynamic> newContent, int chapterNum) async {
+  Future<void> addContentToChapter(
+      String mangaId, Map<String, dynamic> newContent, int chapterNum) async {
     try {
-      await remoteDataSource.addContentToChapter(mangaId, newContent, chapterNum);
+      await remoteDataSource.addContentToChapter(
+          mangaId, newContent, chapterNum);
+    } on ServerException {
+      throw Failure();
+    }
+  }
+
+  @override
+  Future<void> addImageChapter(String id, String chapNumber, XFile file) async {
+    try {
+      await remoteDataSource.addImageChapter(id, chapNumber, file);
     } on ServerException {
       throw Failure();
     }
