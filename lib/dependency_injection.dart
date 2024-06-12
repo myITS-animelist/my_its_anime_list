@@ -1,6 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 import 'package:my_its_anime_list/features/anime/data/datasources/anime_api_service.dart';
+import 'package:my_its_anime_list/features/anime/data/repositories/anime_repository_impl.dart';
+import 'package:my_its_anime_list/features/anime/domain/repositories/anime_repository.dart';
+import 'package:my_its_anime_list/features/anime/domain/usecases/get_anime.dart';
+import 'package:my_its_anime_list/features/anime/domain/usecases/get_saved_anime.dart';
+import 'package:my_its_anime_list/features/anime/domain/usecases/remove_anime.dart';
+import 'package:my_its_anime_list/features/anime/domain/usecases/save_anime.dart';
+import 'package:my_its_anime_list/features/anime/presentation/bloc/anime/remote/remote_anime_bloc.dart';
 import 'package:my_its_anime_list/features/manga/data/datasources/remote_datasource.dart';
 import 'package:my_its_anime_list/features/manga/data/repositories/manga_repository_impl.dart';
 import 'package:my_its_anime_list/features/manga/domain/repositories/manga_repository.dart';
@@ -91,6 +98,18 @@ Future<void> initializeDependencies() async {
   sl.registerFactory<MangaBloc>(() => MangaBloc(sl()));
 
   sl.registerSingleton<AnimeApiService>(AnimeApiService(sl()));
+  
+  sl.registerSingleton<AnimeRepository>(AnimeRepositoryImpl(sl()));
+
+  sl.registerFactory<RemoteAnimeBloc>(()=> RemoteAnimeBloc(sl()));
+
+  sl.registerSingleton<GetAnimeUseCase>(GetAnimeUseCase(sl()));
+
+  sl.registerSingleton<GetSavedAnimeUseCase>(GetSavedAnimeUseCase(sl()));
+
+  sl.registerSingleton<SaveAnimeUseCase>(SaveAnimeUseCase(sl()));
+
+  sl.registerSingleton<RemoveAnimeUseCase>(RemoveAnimeUseCase(sl()));
 
 // Bloc
 

@@ -11,13 +11,13 @@ class RemoteAnimeBloc extends Bloc<RemoteAnimeEvent, RemoteAnimeState>{
     on <GetAnime> (onGetAnime);
   }
 
-  void onGetAnime(GetAnime event, Emitter<RemoteAnimeState> emit){
+  void onGetAnime(GetAnime event, Emitter<RemoteAnimeState> emit) async {
     final dataState = await _getAnimeUseCase();
 
     if(dataState is DataSuccess && dataState.data!.isNotEmpty){
       emit(RemoteAnimeDone(dataState.data!));
     }
-    
+
     if(dataState is DataFailed){
       emit(RemoteAnimeError(dataState.error!));
     }

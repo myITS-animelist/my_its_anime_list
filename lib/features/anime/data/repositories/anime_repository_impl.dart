@@ -34,4 +34,22 @@ class AnimeRepositoryImpl implements AnimeRepository{
   }
   }
 
+  @override
+  Future<List<AnimeEntity>> getSavedAnime() {
+    // TODO: implement getSavedAnime
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> removeAnime(AnimeEntity anime) {
+    // TODO: implement removeAnime
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> saveAnime(AnimeEntity anime) {
+    // TODO: implement saveAnime
+    throw UnimplementedError();
+  }
+
 }

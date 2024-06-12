@@ -1,40 +1,16 @@
 import 'package:equatable/equatable.dart';
+import 'package:my_its_anime_list/features/anime/domain/entities/anime_node.dart';
+import 'package:my_its_anime_list/features/anime/domain/entities/anime_info.dart';
 
-class AnimeEntity extends Equatable{
-  final int ? id;
-  final String ? title;
-  final int ? rating;
-  final String ? synopsis;
-  final String ? poster;
-  final String ? type;
-  final int ? episode;
-  final String ? status;
-  final String ? premiered;
+class AnimeEntity extends Equatable {
+  final AnimeNodeEntity node;
+  final RankingEntity? ranking;
 
   const AnimeEntity({
-   this.id,
-   this.title,
-   this.rating,
-   this.synopsis,
-   this.poster,
-   this.type,
-   this.episode,
-   this.status,
-   this.premiered
-});
+    required this.node,
+    this.ranking,
+  });
 
   @override
-  List < Object ? > get props {
-    return [
-      id,
-      title,
-      rating,
-      synopsis,
-      poster,
-      type,
-      episode,
-      status,
-      premiered
-    ];
-  }
+  List<Object?> get props => [node, ranking];
 }
