@@ -6,6 +6,7 @@ import 'package:my_its_anime_list/dependency_injection.dart' as di;
 import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_bloc.dart';
 import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_event.dart';
 import 'package:my_its_anime_list/features/manga/presentation/pages/manga_home_page.dart';
+import 'package:my_its_anime_list/features/menu/presentation/pages/MenuPage.dart';
 import 'package:my_its_anime_list/firebase_options.dart';
 import 'package:my_its_anime_list/features/authentication/presentation/bloc/authentication/auth_bloc.dart';
 import 'package:my_its_anime_list/features/authentication/presentation/pages/auth/sign_up_page.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
               onGenerateRoute: AppRoutes.onGenerateRoutes,
               home: BlocProvider(
                   create: (_) => di.sl<MangaBloc>()..add(GetMangaListEvent()),
-                  child: const MangaHomePage()),
+                  child: const MenuPage()),
             );
           } else {
             return MaterialApp(

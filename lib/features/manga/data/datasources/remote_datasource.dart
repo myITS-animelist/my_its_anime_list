@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_its_anime_list/features/manga/data/models/manga_model.dart';
 import 'package:uuid/uuid.dart';
@@ -14,6 +15,7 @@ abstract class RemoteDataSource {
   Future<void> addContentToChapter(
       String mangaId, Map<String, dynamic> newContent, int chapterNum);
   Future<void> addImageChapter(String id, String chapNumber, XFile file);
+  Future<void> addUserManga(String manga_id, String user_id);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -87,26 +89,44 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
+  Future<void> addUserManga(String manga_id, String user_id) async {
+
+    var data = await firestore.collection('user_manga').where('user_id', isEqualTo: user_id).get();
+
+    if (data.docs.isNotEmpty) {
+      final docId = data.docs.first.id;
+      final doc = data.docs.first.data();
+      List<dynamic> manga = doc['manga'] ?? [];
+
+      manga.add(manga_id);
+
+      await firestore.collection('user_manga').doc(docId).update({'manga': manga});
+    }
+
+    Map<String, dynamic> userManga = {
+      'user_id': "${user_id}",
+      'manga': [manga_id],
+    };
+
+    await firestore.collection('user_manga').add(userManga);
+  }
+
+
+  @override
   Future<void> addImageChapter(String id, String chapNumber, XFile file) async {
-    Reference referenceRoot =
-        FirebaseStorage.instance.ref();
-    Reference referenceDirImages =
-        referenceRoot.child('images');
+    Reference referenceRoot = FirebaseStorage.instance.ref();
+    Reference referenceDirImages = referenceRoot.child('images');
 
-    String uniqueFileName =
-            DateTime.now().millisecondsSinceEpoch.toString();
+    String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
 
-    Reference referenceImageToUpload =
-        referenceDirImages.child(uniqueFileName);
+    Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
 
     // define the image url
     String imageUrl = '';
 
     try {
-      await referenceImageToUpload
-          .putFile(File(file.path));
-      imageUrl =
-          await referenceImageToUpload.getDownloadURL();
+      await referenceImageToUpload.putFile(File(file.path));
+      imageUrl = await referenceImageToUpload.getDownloadURL();
     } catch (error) {
       // handle error
       print("Error uploading image: $error");
@@ -131,7 +151,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       }
 
       // Update the document with the new chapters array
-      await firestore.collection('manga').doc(docId).update({'chapter': chapters});
+      await firestore
+          .collection('manga')
+          .doc(docId)
+          .update({'chapter': chapters});
     } else {
       print("Document does not exist!");
     }

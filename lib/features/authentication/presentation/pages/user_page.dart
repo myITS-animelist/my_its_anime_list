@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_its_anime_list/features/authentication/presentation/pages/auth/sign_in_page.dart';
 import '../bloc/authentication/auth_bloc.dart';
 
 class UserPage extends StatefulWidget {
@@ -123,6 +124,9 @@ class _UserPageState extends State<UserPage> {
         await currentUser.delete();
 
         BlocProvider.of<AuthBloc>(context).add(LogOutEvent());
+
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const SignIn()));
       }
     });
   }
@@ -133,6 +137,8 @@ class _UserPageState extends State<UserPage> {
     await FirebaseAuth.instance.signOut();
 
     BlocProvider.of<AuthBloc>(context).add(LogOutEvent());
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const SignIn()));
   }
 
   @override

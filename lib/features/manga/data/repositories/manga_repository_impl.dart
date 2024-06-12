@@ -125,4 +125,13 @@ class MangaRepositoryImpl implements MangaRepository {
       throw Failure();
     }
   }
+
+  @override 
+  Future<void> addUserManga(String manga_id, String user_id) async {
+    try {
+      await remoteDataSource.addUserManga(manga_id, user_id);
+    } on ServerException {
+      throw Failure();
+    }
+  }
 }

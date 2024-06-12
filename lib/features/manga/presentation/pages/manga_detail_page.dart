@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:my_its_anime_list/features/manga/domain/entities/manga.dart';
+import 'package:my_its_anime_list/features/manga/presentation/widgets/book_mark_button.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/chapter_bottom_sheet.dart';
 
 class MangaDetailPage extends StatelessWidget {
@@ -45,6 +46,8 @@ class MangaDetailPage extends StatelessWidget {
             title: Text("Genre"),
             subtitle: Text(manga.genre.join(", ")),
           ),
+          // add bookmark button
+          BookmarkButton(manga_id: manga.id, user_id: "1"),
           ListTile(
             title: Text("Chapter"),
             subtitle: ChapterBottomSheet(id: manga.id, chapter: manga.chapter), 
