@@ -22,6 +22,7 @@ class MangaDetailPage extends StatelessWidget {
       body: ListView(
         children: [
           Image.network(manga.cover),
+          BookmarkButton(manga_id: manga.id, user_id: "1"),
           ListTile(
             title: const Text("Author"),
             subtitle: Text(manga.author),
@@ -47,7 +48,6 @@ class MangaDetailPage extends StatelessWidget {
             subtitle: Text(manga.genre.join(", ")),
           ),
           // add bookmark button
-          BookmarkButton(manga_id: manga.id, user_id: "1"),
           ListTile(
             title: Text("Chapter"),
             subtitle: ChapterBottomSheet(id: manga.id, chapter: manga.chapter), 

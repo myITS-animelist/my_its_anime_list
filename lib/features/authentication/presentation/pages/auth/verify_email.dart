@@ -5,6 +5,7 @@ import 'package:my_its_anime_list/features/manga/domain/usecases/get_all_mangas.
 import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_bloc.dart';
 import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_event.dart';
 import 'package:my_its_anime_list/features/manga/presentation/pages/manga_home_page.dart';
+import 'package:my_its_anime_list/features/manga/presentation/pages/manga_page.dart';
 import 'package:my_its_anime_list/features/menu/presentation/pages/MenuPage.dart';
 import '../../pages/home.dart';
 import '../../bloc/authentication/auth_bloc.dart';
@@ -52,7 +53,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                     //     child: const MangaHomePage(),
                     //   )));
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const MenuPage()));
+                        builder: (context) => const MangaPage()));
                   }
                 },
                 builder: (context, state) {

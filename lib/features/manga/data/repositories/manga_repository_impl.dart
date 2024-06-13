@@ -53,6 +53,7 @@ class MangaRepositoryImpl implements MangaRepository {
                   release: e.release,
                   genre: e.genre,
                   id: e.id,
+                  readCount: e.readCount,
                 ))
             .toList();
         yield Right<Failure, List<MangaEntity>>(mangaEntity);
@@ -79,6 +80,7 @@ class MangaRepositoryImpl implements MangaRepository {
           release: mangaModel.release,
           genre: mangaModel.genre,
           id: mangaModel.id,
+          readCount: mangaModel.readCount,
         );
         yield Right<Failure, MangaEntity>(mangaEntity);
       }

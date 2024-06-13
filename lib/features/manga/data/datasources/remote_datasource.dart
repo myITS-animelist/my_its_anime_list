@@ -25,6 +25,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
 
   @override
   Stream<List<MangaModel>> getMangaList() {
+
     return firestore.collection('manga').snapshots().map((snapshot) {
       return snapshot.docs
           .map((doc) => MangaModel.fromJson(doc.data() as Map<String, dynamic>))
@@ -90,8 +91,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
 
   @override
   Future<void> addUserManga(String manga_id, String user_id) async {
-
-    var data = await firestore.collection('user_manga').where('user_id', isEqualTo: user_id).get();
+    var data = await firestore
+        .collection('user_manga')
+        .where('user_id', isEqualTo: user_id)
+        .get();
 
     if (data.docs.isNotEmpty) {
       final docId = data.docs.first.id;
@@ -100,7 +103,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
 
       manga.add(manga_id);
 
-      await firestore.collection('user_manga').doc(docId).update({'manga': manga});
+      await firestore
+          .collection('user_manga')
+          .doc(docId)
+          .update({'manga': manga});
     }
 
     Map<String, dynamic> userManga = {
@@ -110,7 +116,6 @@ class RemoteDataSourceImpl implements RemoteDataSource {
 
     await firestore.collection('user_manga').add(userManga);
   }
-
 
   @override
   Future<void> addImageChapter(String id, String chapNumber, XFile file) async {

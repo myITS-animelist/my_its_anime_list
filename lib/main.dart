@@ -1,11 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_its_anime_list/config/routes/routes.dart';
 import 'package:my_its_anime_list/dependency_injection.dart' as di;
+import 'package:my_its_anime_list/features/manga/data/datasources/remote_datasource.dart';
+import 'package:my_its_anime_list/features/manga/data/repositories/manga_repository_impl.dart';
+import 'package:my_its_anime_list/features/manga/domain/repositories/manga_repository.dart';
+import 'package:my_its_anime_list/features/manga/domain/usecases/create_manga.dart';
 import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_bloc.dart';
 import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_event.dart';
 import 'package:my_its_anime_list/features/manga/presentation/pages/manga_home_page.dart';
+import 'package:my_its_anime_list/features/manga/presentation/pages/manga_page.dart';
 import 'package:my_its_anime_list/features/menu/presentation/pages/MenuPage.dart';
 import 'package:my_its_anime_list/firebase_options.dart';
 import 'package:my_its_anime_list/features/authentication/presentation/bloc/authentication/auth_bloc.dart';
@@ -38,7 +44,7 @@ class MyApp extends StatelessWidget {
               onGenerateRoute: AppRoutes.onGenerateRoutes,
               home: BlocProvider(
                   create: (_) => di.sl<MangaBloc>()..add(GetMangaListEvent()),
-                  child: const MenuPage()),
+                  child: const MangaPage()),
             );
           } else {
             return MaterialApp(

@@ -11,6 +11,7 @@ class MangaEntity extends Equatable {
   final List<Map<String, dynamic>> chapter;
   final String release;
   final List<String> genre;
+  final int readCount;
 
   const MangaEntity({
     required this.id,
@@ -23,6 +24,7 @@ class MangaEntity extends Equatable {
     required this.chapter,
     required this.release,
     required this.genre,
+    required this.readCount,
   });
 
   @override
@@ -37,5 +39,6 @@ class MangaEntity extends Equatable {
         chapter,
         release,
         genre,
+        readCount,
       ];
 }
