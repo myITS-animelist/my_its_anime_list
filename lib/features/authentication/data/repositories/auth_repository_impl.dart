@@ -13,6 +13,7 @@ import '../../domain/repositories/authentication_repository.dart';
 import '../datasources/auth_remote_data_source.dart';
 import '../models/first_page_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
 
 class AuthenticationRepositoryImp implements AuthenticationRepository {
   final AuthRemoteDataSource authRemoteDataSource;
@@ -42,6 +43,7 @@ class AuthenticationRepositoryImp implements AuthenticationRepository {
 
   @override
   Future<Either<Failure, UserCredential>> signUp(SignUpEntity signUp) async {
+    var uuid = Uuid();
     if (!await networkInfo.isConnected) {
       return Left(OfflineFailure());
     } else if (signUp.password != signUp.repeatedPassword) {
@@ -49,20 +51,25 @@ class AuthenticationRepositoryImp implements AuthenticationRepository {
     } else {
       try {
         final signUpModel = SignUpModel(
+            id: signUp.id ?? uuid.v4(),
             name: signUp.name,
             email: signUp.email,
             password: signUp.password,
-            repeatedPassword: signUp.repeatedPassword);
+            repeatedPassword: signUp.repeatedPassword,
+            role: signUp.role);
         final userCredential = await authRemoteDataSource.signUp(signUpModel);
 
         if (userCredential.user != null) {
+          var uuid = Uuid();
           await FirebaseFirestore.instance
               .collection('users')
               .doc(userCredential.user!.uid)
               .set({
+            'id': signUp.id ?? uuid.v4(),
             'name': signUp.name,
             'email': signUp.email,
             'profileImageUrl': '',
+            'role': signUp.role,
           });
         }
 
