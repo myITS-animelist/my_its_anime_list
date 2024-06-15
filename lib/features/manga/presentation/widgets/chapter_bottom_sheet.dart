@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:my_its_anime_list/features/manga/data/datasources/manga_datasource.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/add_chapter_form.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/manga_image_list.dart';
 
 class ChapterBottomSheet extends StatefulWidget {
   final List<Map<String, dynamic>> chapter;
   final String id;
+  final String user_id;
   const ChapterBottomSheet(
-      {super.key, required this.id, required this.chapter});
+      {super.key,
+      required this.id,
+      required this.chapter,
+      required this.user_id});
 
   @override
   State<ChapterBottomSheet> createState() => _ChapterBottomSheetState();
 }
 
 class _ChapterBottomSheetState extends State<ChapterBottomSheet> {
+  final MangaDataSource dataSource = MangaDataSourceImpl();
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -25,7 +32,7 @@ class _ChapterBottomSheetState extends State<ChapterBottomSheet> {
                   appBar: AppBar(
                     title: Text("Chapter"),
                     actions: [
-                       AddChapterForm(id: widget.id),
+                      AddChapterForm(id: widget.id),
                     ],
                   ),
                   body: ListView(
@@ -37,17 +44,24 @@ class _ChapterBottomSheetState extends State<ChapterBottomSheet> {
                           leading: Icon(Icons.book),
                           title: ElevatedButton(
                               child: Text(chapTitle),
-                              onPressed: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => MangaImageList(
-                                        chapterMap['content'] as List<dynamic>,
-                                        chapTitle,
-                                        chapterMap['chapter'].toString(),
-                                        widget.id,
-                                      ),
+                              onPressed: () async {
+                                await dataSource.addOrUpdateReadingStatus(
+                                    widget.user_id,
+                                    widget.id,
+                                    chapterMap['chapter'].toString());
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MangaImageList(
+                                      chapterMap['content'] as List<dynamic>,
+                                      chapTitle,
+                                      chapterMap['chapter'].toString(),
+                                      widget.id,
                                     ),
-                                  ))
+                                  ),
+                                );
+                              })
                           // Text('chapter ' + chapterMap['chapter'].toString()),
                           );
                     }).toList(),

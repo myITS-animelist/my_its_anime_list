@@ -56,6 +56,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       'release': manga['release'],
       'chapter': manga['chapter'],
       'genre': manga['genre'],
+      'readCount': 0,
     };
 
     print("Creating Manga with data: $data");

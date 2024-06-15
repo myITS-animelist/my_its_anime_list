@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:my_its_anime_list/features/manga/data/datasources/manga_datasource.dart';
 import 'package:my_its_anime_list/features/manga/data/models/manga_model.dart';
+import 'package:my_its_anime_list/features/manga/presentation/pages/manga_detail_page.dart';
 import 'package:my_its_anime_list/features/manga/presentation/pages/manga_most_popular.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/form_upload_manga.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/manga_image_list.dart';
@@ -45,7 +46,7 @@ class _MangaListPageState extends State<MangaListPage> {
     );
   }
 
-  Widget _buildMangaList(BuildContext, List<MangaModel> mangalist) {
+  Widget _buildMangaList(BuildContext context, List<MangaModel> mangalist) {
     return Column(
       children: [
         Column(
@@ -66,8 +67,14 @@ class _MangaListPageState extends State<MangaListPage> {
                     onTap: () {
                       // Handle image tap
                       print("State: $mangalist");
-                      Navigator.pushNamed(context, '/manga_detail',
-                          arguments: mangalist[index]);
+                      // Navigator.pushNamed(context, '/manga_detail',
+                      //     arguments: mangalist[index]);
+
+                      Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => MangaDetailPage(manga: mangalist![index])
+                                    ),
+                                  );
                     },
                     child: Container(
                       decoration: BoxDecoration(

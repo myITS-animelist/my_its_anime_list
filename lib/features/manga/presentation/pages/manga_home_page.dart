@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_its_anime_list/features/authentication/domain/usecases/sign_in_usecase.dart';
 import 'package:my_its_anime_list/features/authentication/presentation/pages/auth/sign_up_page.dart';
+import 'package:my_its_anime_list/features/manga/domain/entities/manga.dart';
 import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_bloc.dart';
 import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_state.dart';
+import 'package:my_its_anime_list/features/manga/presentation/pages/manga_detail_page.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/form_upload_manga.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/manga_image_list.dart';
 import 'package:my_its_anime_list/features/authentication/presentation/bloc/authentication/auth_bloc.dart';
@@ -88,8 +90,13 @@ class _MangaHomePageState extends State<MangaHomePage> {
                                 onTap: () {
                                   // Handle image tap
                                   print("State: $state");
-                                  Navigator.pushNamed(context, '/manga_detail',
-                                      arguments: state.mangalist![index]);
+                                  // Navigator.pushNamed(context, '/manga_detail',
+                                  //     arguments: state.mangalist![index]);
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => MangaDetailPage(manga: state.mangalist![index])
+                                    ),
+                                  );
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(

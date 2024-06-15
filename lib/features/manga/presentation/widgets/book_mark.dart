@@ -4,8 +4,9 @@ import 'package:my_its_anime_list/features/manga/presentation/widgets/book_mark_
 class BookMark extends StatefulWidget {
   final String manga_id;
   final String user_id;
+  final String title;
 
-  const BookMark({super.key, required this.manga_id, required this.user_id});
+  const BookMark({super.key, required this.manga_id, required this.user_id, required this.title});
 
   @override
   State<BookMark> createState() => _BookMarkState();
@@ -27,7 +28,7 @@ class _BookMarkState extends State<BookMark> {
               style: TextStyle(fontSize: 24),
             ),
             SizedBox(height: 20),
-            BookmarkButton(manga_id: widget.manga_id, user_id: widget.user_id),
+            BookmarkButton(manga_id: widget.manga_id, user_id: widget.user_id, title: widget.title),
           ],
         ),
       ),

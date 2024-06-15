@@ -6,8 +6,8 @@ import 'package:flutter/widgets.dart';
 import 'package:my_its_anime_list/features/authentication/presentation/pages/user_page.dart';
 import 'package:my_its_anime_list/features/manga/presentation/pages/manga_home_page.dart';
 import 'package:my_its_anime_list/features/manga/presentation/pages/manga_list_page.dart';
+import 'package:my_its_anime_list/features/manga/presentation/pages/manga_search_page.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/manga_list_screen.dart';
-
 
 class MangaPage extends StatefulWidget {
   const MangaPage({super.key});
@@ -21,7 +21,9 @@ class MangaPageState extends State<MangaPage> {
   late PageController _pageController;
   late User user;
   String? name;
+  String? user_id;
   String? profileImageUrl;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -39,14 +41,21 @@ class MangaPageState extends State<MangaPage> {
     setState(() {
       user = currentUser;
       name = doc['name'];
+      user_id = doc['id'];
       profileImageUrl = doc['profileImageUrl'];
+      isLoading = false;
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return 
+    isLoading
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        :
+    Scaffold(
       extendBody: true,
       resizeToAvoidBottomInset: false,
       // AppBar on top
@@ -63,10 +72,9 @@ class MangaPageState extends State<MangaPage> {
             icon: Hero(
               tag: "profileImage",
               child: CircleAvatar(
-                  radius: 15,
-                  backgroundImage: NetworkImage(profileImageUrl ?? ''), 
-                  
-                  ),
+                radius: 15,
+                backgroundImage: NetworkImage(profileImageUrl ?? ''),
+              ),
             )),
         title: Text(
           "ฅᨐฅ",
@@ -79,10 +87,10 @@ class MangaPageState extends State<MangaPage> {
         actions: [
           IconButton(
             onPressed: () {
-              // showSearch(
-              //   context: context,
-              //   delegate: SearchBarDelegate(), 
-              // );
+              showSearch(
+                context: context,
+                delegate: MangaSearchPageDelegate(),
+              );
             },
             icon: const Icon(Icons.search),
           )
@@ -93,11 +101,11 @@ class MangaPageState extends State<MangaPage> {
       body: PageView(
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
-        children: const <Widget>[
-          MangaListPage(),
+        children:  <Widget>[
+          const MangaListPage(),
           // AnimeList(),
           // HomeFeed(),
-          MangaList(),
+          MangaList(user_id: user_id!),
         ],
       ),
 
@@ -134,6 +142,7 @@ class MangaPageState extends State<MangaPage> {
           ),
         ),
       ),
-    );;
+    );
+    ;
   }
 }

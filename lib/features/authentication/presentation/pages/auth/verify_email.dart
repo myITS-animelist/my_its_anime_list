@@ -6,6 +6,7 @@ import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_bloc.da
 import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_event.dart';
 import 'package:my_its_anime_list/features/manga/presentation/pages/manga_home_page.dart';
 import 'package:my_its_anime_list/features/manga/presentation/pages/manga_page.dart';
+import 'package:my_its_anime_list/features/manga/presentation/pages/onboard.dart';
 import 'package:my_its_anime_list/features/menu/presentation/pages/MenuPage.dart';
 import '../../pages/home.dart';
 import '../../bloc/authentication/auth_bloc.dart';
@@ -53,7 +54,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                     //     child: const MangaHomePage(),
                     //   )));
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const MangaPage()));
+                        builder: (context) => OnboardingScreen()));
                   }
                 },
                 builder: (context, state) {
