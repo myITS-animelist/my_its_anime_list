@@ -24,7 +24,8 @@ class _ReadMoreTextState extends State<ReadMoreText> {
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
-            color: Theme.of(context).primaryColor,
+            // color: Theme.of(context).primaryColor,
+            color: Colors.white
           ),
           maxLines: readMore ? 1000 : 5,
           overflow: TextOverflow.ellipsis,
