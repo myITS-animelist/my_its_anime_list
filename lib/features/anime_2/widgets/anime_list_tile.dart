@@ -19,9 +19,11 @@ class AnimeListTile extends StatelessWidget {
     return Material(
       child: InkWell(
         onTap: () {
-          Navigator.of(context).pushNamed(
-            AnimeDetailsScreen.routeName,
-            arguments: anime.node.id,
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AnimeDetailsScreen(id: anime.node.id),
+            ),
           );
         },
         child: Padding(

@@ -295,9 +295,13 @@ class AnimeDetailsScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 child: InkWell(
                   onTap: () {
-                    Navigator.of(context).pushNamed(
-                      NetworkImageView.routeName,
-                      arguments: largeImage,
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NetworkImageView(
+                          url: largeImage,
+                        ),
+                      ),
                     );
                   },
                   child: Image.network(

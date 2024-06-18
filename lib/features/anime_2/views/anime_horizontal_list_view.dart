@@ -38,9 +38,11 @@ class AnimeHorizontalListView extends StatelessWidget {
                     final anime = animes[index];
                     return GestureDetector(
                       onTap: () {
-                        Navigator.of(context).pushNamed(
-                          AnimeDetailsScreen.routeName,
-                          arguments: anime.id,
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AnimeDetailsScreen(id: anime.id),
+                          ),
                         );
                       },
                       child: AnimeTile(anime: anime),

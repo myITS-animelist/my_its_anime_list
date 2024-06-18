@@ -42,11 +42,13 @@ class SeasonalAnimeView extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed(
-                          ViewAllSeasonalAnimesScreen.routeName,
-                          arguments: {
-                            'label': label,
-                          },
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ViewAllSeasonalAnimesScreen(
+                              label: label,
+                            ),
+                          ),
                         );
                       },
                       child: const Text('View all'),
@@ -68,9 +70,11 @@ class SeasonalAnimeView extends StatelessWidget {
                     final anime = animes.elementAt(index);
                     return InkWell(
                       onTap: () {
-                        Navigator.of(context).pushNamed(
-                          AnimeDetailsScreen.routeName,
-                          arguments: anime.node.id,
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AnimeDetailsScreen(id: anime.node.id),
+                          ),
                         );
                       },
                       child: AnimeTile(

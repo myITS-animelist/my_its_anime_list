@@ -91,9 +91,11 @@ class TopAnimePicture extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          AnimeDetailsScreen.routeName,
-          arguments: anime.node.id,
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AnimeDetailsScreen(id: anime.node.id),
+          ),
         );
       },
       splashColor: Colors.white,

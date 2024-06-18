@@ -15,7 +15,7 @@ import 'package:my_its_anime_list/features/manga/presentation/pages/manga_detail
 import 'package:my_its_anime_list/features/manga/presentation/pages/manga_home_page.dart';
 
 class AppRoutes {
-  static Route onGenerateRoute(RouteSettings settings) {
+  static Route onGenerateRoutes(RouteSettings settings) {
     switch (settings.name) {
       case AnimeDetailsScreen.routeName:
         final id = settings.arguments as int;

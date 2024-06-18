@@ -45,9 +45,11 @@ class AnimeGridTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          AnimeDetailsScreen.routeName,
-          arguments: anime.node.id,
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AnimeDetailsScreen(id: anime.node.id),
+          ),
         );
       },
       child: Material(
