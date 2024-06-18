@@ -15,7 +15,6 @@ import '../models/first_page_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
-
 class AuthenticationRepositoryImp implements AuthenticationRepository {
   final AuthRemoteDataSource authRemoteDataSource;
   final NetworkInfo networkInfo;
@@ -29,8 +28,6 @@ class AuthenticationRepositoryImp implements AuthenticationRepository {
         final signInModel =
             SignInModel(email: signIn.email, password: signIn.password);
         final userCredential = await authRemoteDataSource.signIn(signInModel);
-
-
 
         return Right(userCredential);
       } on ExistedAccountException {
@@ -55,12 +52,14 @@ class AuthenticationRepositoryImp implements AuthenticationRepository {
     } else {
       try {
         final signUpModel = SignUpModel(
-            id: signUp.id ?? uuid.v4(),
-            name: signUp.name,
-            email: signUp.email,
-            password: signUp.password,
-            repeatedPassword: signUp.repeatedPassword,
-            role: signUp.role);
+          id: signUp.id ?? uuid.v4(),
+          name: signUp.name,
+          email: signUp.email,
+          password: signUp.password,
+          repeatedPassword: signUp.repeatedPassword,
+          role: signUp.role,
+          bio: signUp.bio,
+        );
         final userCredential = await authRemoteDataSource.signUp(signUpModel);
 
         if (userCredential.user != null) {
@@ -74,6 +73,7 @@ class AuthenticationRepositoryImp implements AuthenticationRepository {
             'email': signUp.email,
             'profileImageUrl': '',
             'role': signUp.role,
+            'bio': signUp.bio,
           });
         }
 
@@ -175,7 +175,7 @@ class AuthenticationRepositoryImp implements AuthenticationRepository {
   }
 
   @override
-   Future<void> fetchUser() async {
+  Future<void> fetchUser() async {
     User currentUser = FirebaseAuth.instance.currentUser!;
     DocumentSnapshot doc = await FirebaseFirestore.instance
         .collection('users')
@@ -187,5 +187,4 @@ class AuthenticationRepositoryImp implements AuthenticationRepository {
     //   profileImageUrl = doc['profileImageUrl'];
     // });
   }
-
 }

@@ -8,6 +8,7 @@ class SignUpEntity extends Equatable {
   final String repeatedPassword;
   final String profileImageUrl;
   final String role;
+  final String bio;
 
   const SignUpEntity({
     this.id,
@@ -17,8 +18,9 @@ class SignUpEntity extends Equatable {
     required this.repeatedPassword,
     this.profileImageUrl = '',
     this.role = 'user',
+    this.bio = 'The user hasn\'t set any bio yet',
   });
 
   @override
-  List<Object?> get props => [id, name, email, password, repeatedPassword, profileImageUrl, role];
+  List<Object?> get props => [id, name, email, password, repeatedPassword, profileImageUrl, role, bio];
 }

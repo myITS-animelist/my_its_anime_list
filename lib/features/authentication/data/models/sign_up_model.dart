@@ -9,6 +9,7 @@ class SignUpModel extends SignUpEntity {
     required String repeatedPassword,
     String profileImageUrl = '',
     String role = 'user',
+    String bio = 'The user hasn\'t set any bio yet',
   }) : super(
           id: id,
           name: name,
@@ -17,6 +18,7 @@ class SignUpModel extends SignUpEntity {
           repeatedPassword: repeatedPassword,
           profileImageUrl: profileImageUrl,
           role: role,
+          bio: bio,
         );
 
   factory SignUpModel.fromJson(Map<String, dynamic> json) {
@@ -28,6 +30,7 @@ class SignUpModel extends SignUpEntity {
       repeatedPassword: json['repeatedPassword'],
       profileImageUrl: json['profileImageUrl'] ?? '',
       role: json['role'] ?? 'user',
+      bio: json['bio'] ?? 'The user hasn\'t set any bio yet',
     );
   }
 
@@ -40,6 +43,7 @@ class SignUpModel extends SignUpEntity {
       'repeatedPassword': repeatedPassword,
       'profileImageUrl': profileImageUrl,
       'role': role,
+      'bio': bio,
     };
   }
 }

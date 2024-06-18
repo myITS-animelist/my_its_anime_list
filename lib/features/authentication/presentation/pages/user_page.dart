@@ -19,6 +19,7 @@ class _UserPageState extends State<UserPage> {
   late User user;
   String? name;
   String? profileImageUrl;
+  String? bio;
 
   @override
   void initState() {
@@ -36,6 +37,7 @@ class _UserPageState extends State<UserPage> {
       user = currentUser;
       name = doc['name'];
       profileImageUrl = doc['profileImageUrl'];
+      bio = doc['bio'];
     });
   }
 
@@ -141,11 +143,57 @@ class _UserPageState extends State<UserPage> {
         MaterialPageRoute(builder: (context) => const SignIn()));
   }
 
+  Future<void> updateBio() async {
+    final bioController = TextEditingController();
+
+    await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Update your bio'),
+          content: TextField(
+            controller: bioController,
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                String newBio = bioController.text;
+                Navigator.of(context).pop(newBio);
+              },
+            ),
+          ],
+        );
+      },
+    ).then((newBio) async {
+      if (newBio != null) {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .update({'bio': newBio});
+
+        setState(() {
+          bio = newBio;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('User Profile'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ],
       ),
       drawer: Drawer(
         child: ListView(
@@ -206,6 +254,14 @@ class _UserPageState extends State<UserPage> {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              bio ?? 'No bio', // Display the bio
+              style: TextStyle(
+                fontSize: 16,
               ),
               textAlign: TextAlign.center,
             ),
