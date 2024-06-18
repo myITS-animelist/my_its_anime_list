@@ -9,7 +9,6 @@ import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_event.d
 import 'package:my_its_anime_list/features/manga/presentation/pages/manga_home_page.dart';
 import 'package:my_its_anime_list/features/manga/presentation/pages/manga_page.dart';
 import 'package:my_its_anime_list/features/manga/presentation/pages/onboard.dart';
-import 'package:my_its_anime_list/features/menu/presentation/pages/MenuPage.dart';
 import '../../../domain/entities/sign_in_entity.dart';
 import '../../bloc/authentication/auth_bloc.dart';
 import '../../pages/auth/sign_up_page.dart';
