@@ -1,9 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_its_anime_list/features/authentication/domain/usecases/sign_in_usecase.dart';
+import 'package:my_its_anime_list/features/authentication/presentation/pages/auth/sign_up_page.dart';
+import 'package:my_its_anime_list/features/manga/domain/entities/manga.dart';
 import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_bloc.dart';
 import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_state.dart';
+import 'package:my_its_anime_list/features/manga/presentation/pages/manga_detail_page.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/form_upload_manga.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/manga_image_list.dart';
+import 'package:my_its_anime_list/features/authentication/presentation/bloc/authentication/auth_bloc.dart';
+import 'package:my_its_anime_list/features/manga/presentation/widgets/navigation_bar.dart';
+import 'package:my_its_anime_list/dependency_injection.dart';
 
 class MangaHomePage extends StatefulWidget {
   const MangaHomePage({super.key});
@@ -13,11 +22,34 @@ class MangaHomePage extends StatefulWidget {
 }
 
 class _MangaHomePageState extends State<MangaHomePage> {
+  int _selectedIndex = 0;
+  String? role;
+
+  static const List<Widget> _widgetOptions = <Widget>[
+    MangaHomePage(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  Future<void> fetchUser() async {
+    User currentUser = FirebaseAuth.instance.currentUser!;
+    DocumentSnapshot doc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUser.uid)
+        .get();
+    setState(() {
+      role = doc['role'];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("My ITS Anime List"),
           centerTitle: true,
         ),
         body: StreamBuilder<MangaState>(
@@ -43,7 +75,7 @@ class _MangaHomePageState extends State<MangaHomePage> {
                     Column(
                       children: [
                         SizedBox(
-                          height: 650,
+                          height: 600,
                           child: GridView.builder(
                             itemCount: state.mangalist!.length,
                             gridDelegate:
@@ -58,8 +90,13 @@ class _MangaHomePageState extends State<MangaHomePage> {
                                 onTap: () {
                                   // Handle image tap
                                   print("State: $state");
-                                  Navigator.pushNamed(context, '/manga_detail',
-                                      arguments: state.mangalist![index]);
+                                  // Navigator.pushNamed(context, '/manga_detail',
+                                  //     arguments: state.mangalist![index]);
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => MangaDetailPage(manga: state.mangalist![index])
+                                    ),
+                                  );
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -86,7 +123,6 @@ class _MangaHomePageState extends State<MangaHomePage> {
                                                     top: Radius.circular(10)),
                                             child: Image.network(
                                               state.mangalist![index].cover,
-                                              // "https://firebasestorage.googleapis.com/v0/b/myits-animelist.appspot.com/o/images%2F1717007549286?alt=media&token=0abb80f6-7621-4736-9c56-edad278c84c5",
                                               fit: BoxFit.cover,
                                               width: double.infinity,
                                               height: 300,
@@ -150,6 +186,10 @@ class _MangaHomePageState extends State<MangaHomePage> {
                                                       "Chapter " +
                                                           chapter['chapter']
                                                               .toString(),
+                                                      chapter['chapter']
+                                                          .toString(),
+                                                      state
+                                                          .mangalist![index].id,
                                                     ),
                                                   ),
                                                 );
@@ -191,17 +231,17 @@ class _MangaHomePageState extends State<MangaHomePage> {
                         child: Container(
                       height: 50,
                       width: 200,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const FormUplaodManga(),
-                            ),
-                          );
-                        },
-                        child: const Text("Upload Manga"),
-                      ),
+                      child: role == 'admin' ? ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const FormUplaodManga(),
+                              ),
+                            );
+                          },
+                          child: const Text("Upload Manga"),
+                        ) : null,
                     ))
                   ],
                 );

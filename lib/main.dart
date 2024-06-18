@@ -14,7 +14,7 @@ import 'package:my_its_anime_list/features/anime_2/cubits/anime_title_language_c
 import 'package:my_its_anime_list/features/anime_2/cubits/theme_cubit.dart';
 import 'package:my_its_anime_list/features/anime_2/core/widgets/bookmarks_provider.dart';
 import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_event.dart';
-
+import 'package:my_its_anime_list/features/manga/presentation/pages/onboard.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,8 +57,8 @@ class MyApp extends StatelessWidget {
                 themeMode: themeMode,
                 theme: AppTheme.lightTheme,
                 darkTheme: AppTheme.darkTheme,
-                home: const MangaHomePage(),
                 onGenerateRoute: AppRoutes.onGenerateRoutes,
+                home: const OnboardingScreen(),
               );
             },
           );

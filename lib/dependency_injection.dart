@@ -13,9 +13,12 @@ import 'package:my_its_anime_list/features/manga/data/repositories/manga_reposit
 import 'package:my_its_anime_list/features/manga/domain/repositories/manga_repository.dart';
 import 'package:my_its_anime_list/features/manga/domain/usecases/add_chapter.dart';
 import 'package:my_its_anime_list/features/manga/domain/usecases/add_content_to_chapter.dart';
+import 'package:my_its_anime_list/features/manga/domain/usecases/add_image_chapter.dart';
+import 'package:my_its_anime_list/features/manga/domain/usecases/add_user_manga.dart';
 import 'package:my_its_anime_list/features/manga/domain/usecases/create_manga.dart';
 import 'package:my_its_anime_list/features/manga/domain/usecases/get_all_mangas.dart';
 import 'package:my_its_anime_list/features/manga/domain/usecases/get_manga.dart';
+import 'package:my_its_anime_list/features/manga/presentation/bloc/imageChapter/image_chapter_add_bloc.dart';
 import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:my_its_anime_list/features/authentication/data/datasources/auth_remote_data_source.dart';
@@ -30,6 +33,7 @@ import 'package:my_its_anime_list/features/authentication/domain/usecases/sign_u
 import 'package:my_its_anime_list/features/authentication/domain/usecases/verifiy_email_usecase.dart';
 import 'package:my_its_anime_list/features/authentication/presentation/bloc/authentication/auth_bloc.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:my_its_anime_list/features/manga/presentation/bloc/userManga/user_manga_add_bloc.dart';
 
 import 'core/network/network_info.dart';
 
@@ -91,6 +95,14 @@ Future<void> initializeDependencies() async {
     AddChapter(sl()),
   );
 
+  sl.registerSingleton<ImageChapterAddUseCase>(
+    ImageChapterAddUseCase(sl()),
+  );
+
+  sl.registerSingleton<AddUserMangaUseCase>(
+    AddUserMangaUseCase(sl()),
+  );
+
   sl.registerSingleton<AddContentToChapter>(
     AddContentToChapter(sl()),
   );
@@ -111,6 +123,8 @@ Future<void> initializeDependencies() async {
   //
   // sl.registerSingleton<RemoveAnimeUseCase>(RemoveAnimeUseCase(sl()));
 
+  sl.registerFactory<ImageChapterAddBloc>(() => ImageChapterAddBloc(sl()));
+  sl.registerFactory<UserMangaAddBloc>(() => UserMangaAddBloc(sl()));
 // Bloc
 
   sl.registerFactory(() => AuthBloc(

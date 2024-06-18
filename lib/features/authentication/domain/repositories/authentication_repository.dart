@@ -12,10 +12,9 @@ abstract class AuthenticationRepository {
   Future<Either<Failure, UserCredential>> signUp(SignUpEntity signUp);
   Future<Either<Failure, UserCredential>> googleSignIn();
   FirstPageEntity firstPage();
-  Future<Either<Failure, Unit>>  verifyEmail();
+  Future<Either<Failure, Unit>> verifyEmail();
   Future<Either<Failure, Unit>> checkEmailVerification(Completer completer);
-  Future<Either<Failure, Unit>>  logOut();
+  Future<Either<Failure, Unit>> logOut();
 
-
-
+  Future<void> fetchUser();
 }

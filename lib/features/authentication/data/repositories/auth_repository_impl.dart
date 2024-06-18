@@ -12,6 +12,9 @@ import '../../domain/entities/sign_up_entity.dart';
 import '../../domain/repositories/authentication_repository.dart';
 import '../datasources/auth_remote_data_source.dart';
 import '../models/first_page_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
+
 
 class AuthenticationRepositoryImp implements AuthenticationRepository {
   final AuthRemoteDataSource authRemoteDataSource;
@@ -26,6 +29,9 @@ class AuthenticationRepositoryImp implements AuthenticationRepository {
         final signInModel =
             SignInModel(email: signIn.email, password: signIn.password);
         final userCredential = await authRemoteDataSource.signIn(signInModel);
+
+
+
         return Right(userCredential);
       } on ExistedAccountException {
         return Left(ExistedAccountFailure());
@@ -41,6 +47,7 @@ class AuthenticationRepositoryImp implements AuthenticationRepository {
 
   @override
   Future<Either<Failure, UserCredential>> signUp(SignUpEntity signUp) async {
+    var uuid = Uuid();
     if (!await networkInfo.isConnected) {
       return Left(OfflineFailure());
     } else if (signUp.password != signUp.repeatedPassword) {
@@ -48,11 +55,28 @@ class AuthenticationRepositoryImp implements AuthenticationRepository {
     } else {
       try {
         final signUpModel = SignUpModel(
+            id: signUp.id ?? uuid.v4(),
             name: signUp.name,
             email: signUp.email,
             password: signUp.password,
-            repeatedPassword: signUp.repeatedPassword);
+            repeatedPassword: signUp.repeatedPassword,
+            role: signUp.role);
         final userCredential = await authRemoteDataSource.signUp(signUpModel);
+
+        if (userCredential.user != null) {
+          var uuid = Uuid();
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(userCredential.user!.uid)
+              .set({
+            'id': signUp.id ?? uuid.v4(),
+            'name': signUp.name,
+            'email': signUp.email,
+            'profileImageUrl': '',
+            'role': signUp.role,
+          });
+        }
+
         return Right(userCredential);
       } on WeekPassException {
         return Left(WeekPassFailure());
@@ -140,10 +164,28 @@ class AuthenticationRepositoryImp implements AuthenticationRepository {
       try {
         final userCredential =
             await authRemoteDataSource.googleAuthentication();
+
+        // fetch user data
+        await fetchUser();
         return Right(userCredential);
       } on ServerException {
         return Left(ServerFailure());
       }
     }
   }
+
+  @override
+   Future<void> fetchUser() async {
+    User currentUser = FirebaseAuth.instance.currentUser!;
+    DocumentSnapshot doc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUser.uid)
+        .get();
+    // setState(() {
+    //   user = currentUser;
+    //   name = doc['name'];
+    //   profileImageUrl = doc['profileImageUrl'];
+    // });
+  }
+
 }
