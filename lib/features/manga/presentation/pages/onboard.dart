@@ -4,6 +4,7 @@ import 'package:my_its_anime_list/features/manga/data/models/manga_model.dart';
 import 'package:my_its_anime_list/features/manga/presentation/pages/manga_detail_page.dart';
 import 'package:my_its_anime_list/features/manga/presentation/pages/manga_page.dart';
 import 'package:my_its_anime_list/features/manga/presentation/pages/manga_search_home_page.dart';
+import 'package:my_its_anime_list/features/anime_2/screens/home_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -125,6 +126,19 @@ class _AnimeSearchPageState extends State<AnimeSearchPage> {
               },
               icon: Icon(Icons.home, color: Colors.white),
               label: Text('Go to home page', style: TextStyle(color: Colors.white)),
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.purple,
+                padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+              ),
+            ),
+            TextButton.icon(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => HomeScreen(),
+                ));
+              },
+              icon: Icon(Icons.home, color: Colors.white),
+              label: Text('Surf Through Animes', style: TextStyle(color: Colors.white)),
               style: TextButton.styleFrom(
                 backgroundColor: Colors.purple,
                 padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),

@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
                 themeMode: themeMode,
                 theme: AppTheme.lightTheme,
                 darkTheme: AppTheme.darkTheme,
-                onGenerateRoute: AppRoutes.onGenerateRoutes,
+                onGenerateRoute: AppRoutes.onGenerateRoute,
                 home: const OnboardingScreen(),
               );
             },
@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
             title: 'My Anime List',
             theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.blue),
             debugShowCheckedModeBanner: false,
-            onGenerateRoute: AppRoutes.onGenerateRoutes,
+            onGenerateRoute: AppRoutes.onGenerateRoute,
             home: const SignUp(),
           );
         }

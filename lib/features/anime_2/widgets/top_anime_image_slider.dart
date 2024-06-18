@@ -1,10 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
+import 'package:my_its_anime_list/features/anime_2/screens/anime_details_screen.dart';
 import 'package:my_its_anime_list/features/anime_2/constants/app_colors.dart';
 import 'package:my_its_anime_list/features/anime_2/models/anime.dart';
-import 'package:my_its_anime_list/features/anime_2/screens/anime_details_screen.dart';
 
 class TopAnimeImageSlider extends StatefulWidget {
   const TopAnimeImageSlider({
