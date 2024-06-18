@@ -1,0 +1,1 @@
+const String animeAPIBaseURL = 'https://api.myanimelist.net/v2';
