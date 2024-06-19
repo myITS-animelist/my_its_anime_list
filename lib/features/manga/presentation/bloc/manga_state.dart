@@ -14,8 +14,15 @@ class MangaLoading extends MangaState {
   const MangaLoading();
 }
 
+class MangaCreate extends MangaState {
+  const MangaCreate();
+}
+
 class MangaLoaded extends MangaState {
   const MangaLoaded({required List<MangaEntity> mangalist}) : super(mangalist: mangalist);
+
+  @override
+  List<Object> get props => [mangalist!];
 }
 
 class MangaError extends MangaState {

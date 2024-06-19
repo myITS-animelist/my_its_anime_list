@@ -12,6 +12,7 @@ class MangaModel extends MangaEntity {
   final List<Map<String, dynamic>> chapter;
   final String release;
   final List<String> genre;
+  final int readCount;
 
   const MangaModel({
     required this.id,
@@ -24,6 +25,7 @@ class MangaModel extends MangaEntity {
     required this.chapter,
     required this.release,
     required this.genre,
+    required this.readCount,
   }) : super(
           id: id,
           title: title,
@@ -35,6 +37,7 @@ class MangaModel extends MangaEntity {
           chapter: chapter,
           release: release,
           genre: genre,
+          readCount: readCount,
         );
 
   factory MangaModel.fromJson(Map<String, dynamic> json) {
@@ -47,13 +50,17 @@ class MangaModel extends MangaEntity {
       status: json['status'] as String? ?? '',
       type: json['type'] as String? ?? '',
       chapter: (json['chapter'] as List<dynamic>?)
-    ?.map((e) => {
-          'chapter': e['chapter'],
-          'content': (e['content'] as List<dynamic>?)
-        })
-    .toList() ?? [],
+              ?.map((e) => {
+                    'chapter': e['chapter'],
+                    'content': (e['content'] as List<dynamic>?)
+                  })
+              .toList() ??
+          [],
       release: json['release'] as String? ?? '',
-      genre: (json['genre'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+      genre:
+          (json['genre'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+              [],
+      readCount: json['readCount'] as int? ?? 0,
     );
   }
 
@@ -69,6 +76,7 @@ class MangaModel extends MangaEntity {
       'chapter': chapter,
       'release': release,
       'genre': genre,
+      'readCount': readCount,
     };
   }
 }
