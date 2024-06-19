@@ -2,11 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:my_its_anime_list/features/anime_2/core/widgets/bookmarks_provider.dart';
 import 'package:my_its_anime_list/features/anime_2/screens/anime_details_screen.dart';
+import 'package:my_its_anime_list/features/anime_2/models/anime_node.dart';
 
-class BookmarksScreen extends StatelessWidget {
+class BookmarksScreen extends StatefulWidget {
   static const routeName = '/bookmarks';
 
   const BookmarksScreen({super.key});
+
+  @override
+  State<BookmarksScreen> createState() => _BookmarksScreenState();
+}
+
+class _BookmarksScreenState extends State<BookmarksScreen> {
+  void _removeBookmark(AnimeNode anime) {
+    Provider.of<BookmarksProvider>(context, listen: false).removeBookmark(anime);
+    setState(() {
+      // This will trigger a rebuild of the widget tree
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +68,22 @@ class BookmarksScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 8.0),
-                    Text(
-                      anime.title,
-                      style: Theme.of(context).textTheme.titleSmall,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            anime.title,
+                            style: Theme.of(context).textTheme.titleSmall,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () => _removeBookmark(anime),
+                          icon: const Icon(Icons.remove_circle),
+                        ),
+                      ],
                     ),
                   ],
                 ),
