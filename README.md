@@ -2,15 +2,26 @@
 
 A new Flutter project.
 
-## Getting Started
+## Prerequisites
 
-This project is a starting point for a Flutter application.
+Before you begin, ensure you have met the following requirements:
 
-A few resources to get you started if this is your first Flutter project:
+- You have installed the latest version of [Flutter](https://flutter.dev/docs/get-started/install)
+- You have a Windows machine. This guide is tailored for Windows users.
+
+## Setting Up and Running the Project
+
+1. Clone this repository to your local machine.
+2. Navigate to the project directory.
+3. Run `flutter doctor` to check for any dependencies you may still need to install.
+4. Install any dependencies if needed.
+5. Run `flutter pub get` to install the necessary packages for the project.
+6. Start your emulator or connect your mobile device.
+7. Run `flutter run` to start the app.
+
+## Resources
+
+If this is your first Flutter project, here are a few resources to get you started:
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
