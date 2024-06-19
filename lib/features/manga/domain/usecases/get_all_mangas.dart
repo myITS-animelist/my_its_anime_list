@@ -1,4 +1,3 @@
-
 import 'package:my_its_anime_list/core/error/failure.dart';
 import 'package:my_its_anime_list/features/manga/domain/entities/manga.dart';
 import 'package:my_its_anime_list/features/manga/domain/repositories/manga_repository.dart';
@@ -9,7 +8,12 @@ class GetMangaList {
 
   GetMangaList(this._repository);
 
-  Future<Either<Failure, List<MangaEntity>>> execute() async {
-    return await _repository.getMangaList();
+  // Future<Either<Failure, List<MangaEntity>>> execute() async {
+  //   return await _repository.getMangaList();
+  // }
+
+  Stream<Either<Failure, List<MangaEntity>>> execute() {
+    final getmangalistdatas = _repository.getMangaList();
+    return getmangalistdatas;
   }
 }

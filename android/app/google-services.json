@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:337606672385:android:9d7f9e7a1fbc3ab67f0000",
+        "android_client_info": {
+          "package_name": "com.example.anime_world_tutorial"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB48DVNbR3MgkLdtRv3KyjI-oirLC1ntlM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:337606672385:android:ea2b2992401464487f0000",
         "android_client_info": {
           "package_name": "com.example.my_its_anime_list"
