@@ -5,6 +5,7 @@ import 'package:my_its_anime_list/features/manga/domain/entities/manga.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/book_mark_button.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/chapter_bottom_sheet.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/comment_section.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MangaDetailPage extends StatefulWidget {
   final MangaEntity manga;
@@ -20,19 +21,31 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
   String? user_id;
   String? userName;
   bool isLloading = true;
+  String? role;
 
   @override
   void initState() {
     super.initState();
     dataSource.fetchUser().then((value) {
+
+      
+
       setState(() {
         user_id = value['id'];
         userName = value['name'];
+        role = value['role'];
         print("USER ID: $user_id");
         isLloading = false;
         // reaload page
       });
     });
+
+    // get role from shared preferences
+    SharedPreferences.getInstance().then((prefs) {
+        setState(() {
+          role = prefs.getString('role');
+        });
+      });
   }
 
   @override

@@ -5,7 +5,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_its_anime_list/dependency_injection.dart';
 import 'package:my_its_anime_list/features/authentication/presentation/pages/auth/sign_in_page.dart';
+import 'package:my_its_anime_list/features/manga/domain/usecases/get_all_mangas.dart';
+import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_bloc.dart';
+import 'package:my_its_anime_list/features/manga/presentation/bloc/manga_event.dart';
+import 'package:my_its_anime_list/features/manga/presentation/pages/manga_home_page.dart';
 import '../bloc/authentication/auth_bloc.dart';
 
 class UserPage extends StatefulWidget {
@@ -19,6 +24,7 @@ class _UserPageState extends State<UserPage> {
   late User user;
   String? name;
   String? profileImageUrl;
+  String? role;
 
   @override
   void initState() {
@@ -36,6 +42,7 @@ class _UserPageState extends State<UserPage> {
       user = currentUser;
       name = doc['name'];
       profileImageUrl = doc['profileImageUrl'];
+      role = doc['role'];
     });
   }
 
@@ -189,6 +196,19 @@ class _UserPageState extends State<UserPage> {
               title: Text('Delete Account'),
               onTap: () => deleteAccount(context),
             ),
+            role == 'admin'
+                ? ListTile(
+                    leading: Icon(Icons.admin_panel_settings),
+                    title: Text('Add Manga'),
+                    onTap: () => 
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => BlocProvider(
+                        create: (context) => MangaBloc(sl<GetMangaList>())
+                          ..add(const GetMangaListEvent()),
+                        child: const MangaHomePage(),
+                      ))),
+                  )
+                : Container(),
           ],
         ),
       ),

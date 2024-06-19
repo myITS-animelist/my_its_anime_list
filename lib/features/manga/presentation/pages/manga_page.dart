@@ -8,6 +8,7 @@ import 'package:my_its_anime_list/features/manga/presentation/pages/manga_home_p
 import 'package:my_its_anime_list/features/manga/presentation/pages/manga_list_page.dart';
 import 'package:my_its_anime_list/features/manga/presentation/pages/manga_search_page.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/manga_list_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MangaPage extends StatefulWidget {
   const MangaPage({super.key});
@@ -44,7 +45,13 @@ class MangaPageState extends State<MangaPage> {
       user_id = doc['id'];
       profileImageUrl = doc['profileImageUrl'];
       isLoading = false;
+
+      // add role to shared preferences
+      
     });
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('role', doc['role']);
   }
 
   @override

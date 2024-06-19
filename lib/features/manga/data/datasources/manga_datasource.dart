@@ -126,29 +126,43 @@ class MangaDataSourceImpl implements MangaDataSource {
               })
           .toList();
 
-      // query for get manga data
+      print("READING MANGA: $readingManga");
 
       for (var reading in readingManga) {
         final mangaRef =
             firestore.collection('manga').where('id', isEqualTo: reading['id']);
+        print("READING ID: ${reading['id']}");
         final mangaSnapshot = await mangaRef.get();
-        final mangaDocId = mangaSnapshot.docs.first.id;
-        final mangaDoc = mangaSnapshot.docs.first.data();
 
-        mangaList.add({
-          'id': mangaDocId,
-          'title': mangaDoc['title'],
-          'author': mangaDoc['author'],
-          'sinopsis': mangaDoc['sinopsis'],
-          'cover': mangaDoc['cover'],
-          'status': mangaDoc['status'],
-          'type': mangaDoc['type'],
-          'chapter': mangaDoc['chapter'],
-          'release': mangaDoc['release'],
-          'genre': mangaDoc['genre'],
-          'readCount': mangaDoc['readCount'],
-          'currentChapter': reading['currentChapter'],
-        });
+        print("MANGA SNAPSHOT: ${mangaSnapshot.docs}");
+
+        if (mangaSnapshot.docs.isNotEmpty) {
+          print("COYYYY MASUK");
+          final mangaDocId = mangaSnapshot.docs.first.id;
+          
+          print("MANGA DOC ID: $mangaDocId");
+
+          final mangaDoc = mangaSnapshot.docs.first.data();
+
+          print("MANGA DOC: $mangaDoc");
+
+          mangaList.add({
+            'id': mangaDocId,
+            'title': mangaDoc['title'],
+            'author': mangaDoc['author'],
+            'sinopsis': mangaDoc['sinopsis'],
+            'cover': mangaDoc['cover'],
+            'status': mangaDoc['status'],
+            'type': mangaDoc['type'],
+            'chapter': mangaDoc['chapter'],
+            'release': mangaDoc['release'],
+            'genre': mangaDoc['genre'],
+            'readCount': mangaDoc['readCount'],
+            'currentChapter': reading['currentChapter'],
+          });
+        } else {
+          print("MANGA NOT FOUND");
+        }
       }
 
       return mangaList;
@@ -287,7 +301,8 @@ class MangaDataSourceImpl implements MangaDataSource {
           print("snapshot.docs ${snapshot.docs.first.data()}");
           return snapshot.docs.map((doc) {
             print("doc.data() ${doc.data()}");
-            print("Comment.fromJson(doc.data()) ${Comment.fromJson(doc.data())}");
+            print(
+                "Comment.fromJson(doc.data()) ${Comment.fromJson(doc.data())}");
             return Comment.fromJson(doc.data());
           }).toList();
         });
@@ -325,16 +340,15 @@ class MangaDataSourceImpl implements MangaDataSource {
   @override
   Future<List<MangaModel>> searchMangaByTitle(String title) async {
     final snapshot = await FirebaseFirestore.instance
-      .collection('manga')
-      .where('title', isGreaterThanOrEqualTo: title)
-      .where('title', isLessThan: title + 'z')
-      .get();
+        .collection('manga')
+        .where('title', isGreaterThanOrEqualTo: title)
+        .where('title', isLessThan: title + 'z')
+        .get();
     print("snapshot.docs search ${snapshot.docs}");
 
-    return snapshot.docs
-        .map((doc) {
-          print("doc.data() search ${doc.data()}");
-          return MangaModel.fromJson(doc.data() as Map<String, dynamic>);})
-        .toList();
+    return snapshot.docs.map((doc) {
+      print("doc.data() search ${doc.data()}");
+      return MangaModel.fromJson(doc.data() as Map<String, dynamic>);
+    }).toList();
   }
 }

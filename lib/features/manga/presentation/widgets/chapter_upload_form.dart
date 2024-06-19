@@ -95,3 +95,88 @@ class _ChapterUploadFormState extends State<ChapterUploadForm> {
     ));
   }
 }
+
+
+class GenreUploadForm extends StatefulWidget {
+  final Function(String) updateGenre;
+
+  const GenreUploadForm({super.key, required this.updateGenre});
+
+  @override
+  State<GenreUploadForm> createState() => _GenreUploadFormState();
+}
+
+class _GenreUploadFormState extends State<GenreUploadForm> {
+  late TextEditingController genreController;
+  @override 
+  void initState() {
+    super.initState();
+    genreController = TextEditingController();
+    print("Init State: Initialized controller.");
+  }
+
+  @override
+  void dispose() {
+    genreController.dispose();
+    super.dispose();
+    print("Dispose: Controller disposed.");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ElevatedButton(
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("Add Genre"),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            content: TextField(
+                controller: genreController,
+                autocorrect: true,
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.done,
+                decoration: const InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    border: OutlineInputBorder(),
+                    labelText: 'Genre',
+                    hintText: 'masukkan genre'),
+                     onChanged: (value) {
+                      setState(() {
+                        genreController.text = value;
+                        print("TextField onChanged: Genre updated to $value");
+                      });
+                    },
+              ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Cancel"),
+              ),
+              TextButton(
+                onPressed: () {
+                    try {
+                      print("Data before update: $genreController.text");
+                      widget.updateGenre(genreController.text);
+                      print("Dialog: Add pressed. Genre: ${genreController.text}");
+                      Navigator.pop(context);
+                    } catch (error) {
+                      print("Error updating genre: $error");
+                    }
+                  // Navigator.pop(context);
+                },
+                child: Text("Add"),
+              ),
+            ],
+          )
+        );
+      }, child: Text("Add Genre"),
+    ));
+  }
+}

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_its_anime_list/features/manga/data/datasources/manga_datasource.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/add_chapter_form.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/manga_image_list.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChapterBottomSheet extends StatefulWidget {
   final List<Map<String, dynamic>> chapter;
@@ -19,10 +20,30 @@ class ChapterBottomSheet extends StatefulWidget {
 
 class _ChapterBottomSheetState extends State<ChapterBottomSheet> {
   final MangaDataSource dataSource = MangaDataSourceImpl();
+  String? role;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    SharedPreferences.getInstance().then((prefs) {
+      setState(() {
+        role = prefs.getString('role')!;
+        isLoading = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return 
+    isLoading
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        :
+    ElevatedButton(
       onPressed: () {
         showModalBottomSheet(
             isDismissible: true,
@@ -32,7 +53,9 @@ class _ChapterBottomSheetState extends State<ChapterBottomSheet> {
                   appBar: AppBar(
                     title: Text("Chapter"),
                     actions: [
-                      AddChapterForm(id: widget.id),
+                      role == 'admin'
+                          ?
+                      AddChapterForm(id: widget.id) : Container(),
                     ],
                   ),
                   body: ListView(

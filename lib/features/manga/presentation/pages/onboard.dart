@@ -118,32 +118,39 @@ class _AnimeSearchPageState extends State<AnimeSearchPage> {
               ],
             ),
             SizedBox(height: 20),
-            TextButton.icon(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => MangaPage(),
-                ));
-              },
-              icon: Icon(Icons.home, color: Colors.white),
-              label: Text('Go to home page', style: TextStyle(color: Colors.white)),
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.purple,
-                padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton.icon(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => MangaPage(),
+                    ));
+                  },
+                  icon: Icon(Icons.home, color: Colors.white),
+                  label: Text('Manga', style: TextStyle(color: Colors.white)),
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.purple,
+                    padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+                  ),
+                ),
+                SizedBox(width: 20),
+                TextButton.icon(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => HomeScreen(),
+                    ));
+                  },
+                  icon: Icon(Icons.home, color: Colors.white),
+                  label: Text('Anime', style: TextStyle(color: Colors.white)),
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.purple,
+                    padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+                  ),
+                ),
+              ],
             ),
-            TextButton.icon(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => HomeScreen(),
-                ));
-              },
-              icon: Icon(Icons.home, color: Colors.white),
-              label: Text('Surf Through Animes', style: TextStyle(color: Colors.white)),
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.purple,
-                padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
-              ),
-            ),
+            
             Spacer(),
           ],
         ),

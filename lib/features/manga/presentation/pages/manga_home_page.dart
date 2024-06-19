@@ -13,6 +13,7 @@ import 'package:my_its_anime_list/features/manga/presentation/widgets/manga_imag
 import 'package:my_its_anime_list/features/authentication/presentation/bloc/authentication/auth_bloc.dart';
 import 'package:my_its_anime_list/features/manga/presentation/widgets/navigation_bar.dart';
 import 'package:my_its_anime_list/dependency_injection.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MangaHomePage extends StatefulWidget {
   const MangaHomePage({super.key});
@@ -35,6 +36,12 @@ class _MangaHomePageState extends State<MangaHomePage> {
     });
   }
 
+  @override 
+  void initState() {
+    super.initState();
+    fetchUser();
+  }
+
   Future<void> fetchUser() async {
     User currentUser = FirebaseAuth.instance.currentUser!;
     DocumentSnapshot doc = await FirebaseFirestore.instance
@@ -42,8 +49,12 @@ class _MangaHomePageState extends State<MangaHomePage> {
         .doc(currentUser.uid)
         .get();
     setState(() {
+      print("ROLE USER: ${doc['role']}");
       role = doc['role'];
     });
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('role', doc['role']);
   }
 
   @override

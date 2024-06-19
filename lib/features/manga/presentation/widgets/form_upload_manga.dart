@@ -33,7 +33,7 @@ class _FormUplaodMangaState extends State<FormUplaodManga> {
     'genre': [],
     'chapter': []
   };
-  late List<String> genre;
+  late List<String> genres = [];
   late List<Map<String, dynamic>> chapters = [];
   String imageUrl = '';
   TextEditingController titleController = TextEditingController();
@@ -52,6 +52,13 @@ class _FormUplaodMangaState extends State<FormUplaodManga> {
       chapters.add(data);
       mangaData['chapter'] = chapters;
       print("chapter['chapter'] $chapters");
+    });
+  }
+
+  void _updateGenre(String genre) {
+    setState(() {
+      genres.add(genre);
+      mangaData['genre'].add(genre);
     });
   }
 
@@ -138,6 +145,25 @@ class _FormUplaodMangaState extends State<FormUplaodManga> {
                           ),
                         ),
                       ),
+                      GenreUploadForm(updateGenre: _updateGenre),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: genres.map((genre) {
+                              return Container(
+                                margin: EdgeInsets.all(0),
+                                padding: EdgeInsets.all(0),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Text(genre),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
                       // show image if image have been uploaded
                       if (imageUrl.isNotEmpty)
                         Image.network(
@@ -193,6 +219,7 @@ class _FormUplaodMangaState extends State<FormUplaodManga> {
                                 mangaData['type'] = typeController.text;
                                 mangaData['release'] = releaseController.text;
                                 mangaData['chapter'] = chapters;
+                                mangaData['genre'] = genres;
                               });
                               context
                                   .read<MangaBlocCreate>()
